@@ -3,37 +3,87 @@ package isa.project.domain;
 import java.util.ArrayList;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="Users")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	private Integer id;
-	@Column(name="userRole", unique=false, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Enumerated(EnumType.STRING)
 	private Role userRole;
-	@Column(name="name", unique=false, nullable=false)
-	private String name;
-	@Column(name="surname", unique=false, nullable=false)
-	private String surname;
-	@Column(name="password", unique=false, nullable=false)
-	private String password;
-	@Column(name="email", unique=false, nullable=false)
-	private String email;
-	@Column(name="city", unique=false, nullable=false)
-	private String city;
-	@Column(name="phone", unique=false, nullable=false)
-	private String phone;
-	private ArrayList<User> friends = new ArrayList<User>();
-	private ArrayList<Props> list_of_props = new ArrayList<Props>();
 	
-	
-	public Role getUserRole() {
-		return userRole;
-	}
 	public void setUserRole(Role userRole) {
 		this.userRole = userRole;
 	}
+	
+	@Size(max = 30)
+//	@Pattern(regexp="^[A-Z][a-z A-Z]*")
+	@NotNull
+	@Column(name="name", unique=false, nullable=false)
+	private String name;
+	
+	@Size(max = 30)
+//	@Pattern(regexp="^[A-Z][a-z A-Z]*")
+	@NotNull
+	@Column(name="surname", unique=false, nullable=false)
+	private String surname;
+	
+	@GeneratedValue
+	@NotNull
+	@Column(name="USER_SALT",unique=true, nullable=false)
+	private byte[] salt;
+	
+	@NotNull
+	@Column(name="password", unique=false, nullable=false)
+	private String password;
+	
+	@Size(min = 6, max = 50)
+//	@Pattern(regexp = "^[\\\\w!#$%&â€™*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&â€™*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$")
+	@NotNull
+	@Column(name="email", unique=false, nullable=false)
+	private String email;
+	
+//	@Pattern(regexp="^[A-Z][a-z A-Z]*")
+	@NotNull
+	@Column(name="city", unique=false, nullable=false)
+	private String city;
+	
+//	@Pattern(regexp="^[0-9]*$")
+	@NotNull
+	@Column(name="phone", unique=false, nullable=false)
+	private String phone;
+	
+	@Enumerated(EnumType.STRING)
+	private Status status;
+	
+//	
+//	private ArrayList<User> friends = new ArrayList<User>();
+//	private ArrayList<Props> list_of_props = new ArrayList<Props>();
+	
+	public byte[] getSalt() {
+		return salt;
+	}
+	public void setSalt(byte[] salt) {
+		this.salt = salt;
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -68,9 +118,10 @@ public class User {
 		return phone;
 	}
 	public void setPhone(String phone) {
-		this.phone = phone;
+		this.phone = phone;	
 	}
-	public ArrayList<User> getFriends() {
+	
+	/*public ArrayList<User> getFriends() {
 		return friends;
 	}
 	public void setFriends(ArrayList<User> friends) {
@@ -81,7 +132,7 @@ public class User {
 	}
 	public void setList_of_props(ArrayList<Props> list_of_props) {
 		this.list_of_props = list_of_props;
-	}
+	}*/
 	
 	
 }

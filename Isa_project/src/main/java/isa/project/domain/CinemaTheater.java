@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class CinemaTheater {
 	private enumProjection type;
-	private String Name;
+	private String name;
 	private String adress;
 	private String description;
 	private float rating;
