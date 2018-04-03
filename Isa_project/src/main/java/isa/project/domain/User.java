@@ -61,10 +61,18 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-//	
-//	private ArrayList<User> friends = new ArrayList<User>();
-//	private ArrayList<Props> list_of_props = new ArrayList<Props>();
+	@ManyToOne
+	private CinemaTheater cinemaTheater;
 	
+	public CinemaTheater getCinemaTheater() {
+		return cinemaTheater;
+	}
+	public void setCinemaTheater(CinemaTheater cinemaTheater) {
+		this.cinemaTheater = cinemaTheater;
+	}
+	public Role getUserRole() {
+		return userRole;
+	}
 	public byte[] getSalt() {
 		return salt;
 	}
@@ -120,19 +128,7 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;	
 	}
-	
-	/*public ArrayList<User> getFriends() {
-		return friends;
-	}
-	public void setFriends(ArrayList<User> friends) {
-		this.friends = friends;
-	}
-	public ArrayList<Props> getList_of_props() {
-		return list_of_props;
-	}
-	public void setList_of_props(ArrayList<Props> list_of_props) {
-		this.list_of_props = list_of_props;
-	}*/
+
 	
 	
 }

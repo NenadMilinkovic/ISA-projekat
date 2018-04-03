@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.project.domain.CinemaTheater;
 import isa.project.domain.Role;
 import isa.project.domain.Status;
 import isa.project.domain.User;
+import isa.project.service.CinemaTheaterService;
 import isa.project.service.UserService;
 import isa.project.utils.PasswordStorage;
 import isa.project.utils.PasswordStorage.CannotPerformOperationException;
@@ -40,6 +42,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CinemaTheaterService cinemaTheaterService;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> registerUser(@RequestBody User user){
@@ -65,6 +70,39 @@ public class UserController {
 //		}
 		
 		System.out.println("aaaaaaaaaaa created " + user.getName());
+		
+		SendEmail.sendEmail(user.getEmail());
+		
+		return new ResponseEntity<>(HttpStatus.CREATED);
+		
+	}
+	
+	@RequestMapping(value = "/registerCinemaTheaterAdmin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> registerCinemaTheaterAdmin(@RequestBody User user, @RequestParam(value = "id") int id){
+		
+		
+		List<CinemaTheater> cinemas = cinemaTheaterService.findAll();
+		for(int i = 0; i < cinemas.size(); i++){
+			if(cinemas.get(i).getId() == id){
+				user.setCinemaTheater(cinemas.get(i));
+				cinemas.get(i).getCinemaTheaterAdmin().add(user);
+			//	cinemaTheaterService.delete(cinemas.get(i).getId());
+			//	CinemaTheater save = cinemaTheaterService.save(cinemas.get(i));
+			}
+		}
+		user.setStatus(Status.NOT_ACTIVATED);
+		user.setSalt(PasswordStorage.createSalt());
+		
+		String hashedPassword;
+		try {
+			hashedPassword = PasswordStorage.createHash(user.getSalt(), user.getPassword());
+			user.setPassword(hashedPassword);
+		} catch (CannotPerformOperationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		userService.createNewUser(user);
 		
 		SendEmail.sendEmail(user.getEmail());
 		
