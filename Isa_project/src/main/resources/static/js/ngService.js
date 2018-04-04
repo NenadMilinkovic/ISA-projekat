@@ -19,6 +19,8 @@ isaApp.config(function($routeProvider) {
     })
     .when("/cinemas",{
     	templateUrl : "Cinemas.html"
+    }).when("/funZone",{
+    	templateUrl : "funZone.html"
     })
 //    .when('/404', {
 //    templateUrl: "modals/errorModal.html",
