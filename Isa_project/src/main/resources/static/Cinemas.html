@@ -6,9 +6,10 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Id</th>
+					
 					<th>Name</th>
 					<th>Description</th>
+					<th>Address</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -16,9 +17,10 @@
 				<tr ng-repeat="cinema in cinemas |filter: searchCinema"
 				ng-click="setSelected(cinema)"
 				ng-class="{'info' : selected===cinema}">
-					<td>{{cinema.id}}</td>
+					
 					<td>{{cinema.name}}</td>
 					<td>{{cinema.description}}</td>
+					<td>{{cinema.adress}}</td>
 				</tr>
 			</tbody>
 		</table>

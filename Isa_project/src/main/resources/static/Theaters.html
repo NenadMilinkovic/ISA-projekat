@@ -1,0 +1,35 @@
+<div ng-controller="CinemaTheaterController">
+
+<div class="container" >
+	Search: <input type="text" placeholder="Search" ng-model="searchTheaters" />
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					
+					<th>Name</th>
+					<th>Rating</th>
+					<th>Address</th>
+				</tr>
+			</thead>
+			<tbody>
+			
+				<tr ng-repeat="theater in theaters |filter: searchTheaters"
+				ng-click="setSelected(theater)"
+				ng-class="{'info' : selected===theater}">
+					
+					<td>{{theater.name}}</td>
+					<td>{{theater.rating}}</td>	
+					<td>{{theater.adress}}</td>				
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<button type="button" class="btn btn-primary" ng-click=showView(1)>New theater</button>
+<!--  	<button type="button" class="btn btn-primary" ng-disabled="!selected" ng-click=showView(2)>Register cinema admin</button>
+	-->
+	<div ng-show="show==1" ng-include src="'registerTheater.html'"></div>
+	<!--  <div ng-show="show==2" ng-include src="'registerCinemaTheaterAdmin.html'"></div>
+	-->
+</div>
+</div>

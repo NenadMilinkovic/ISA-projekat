@@ -30,11 +30,25 @@ public class CinemaTheaterController {
 		return new ResponseEntity<List<CinemaTheater>>(cinemas, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/getTheaters", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CinemaTheater>> getTheaters() {
+
+		List<CinemaTheater> theaters = cinemaTheaterService.findByType(enumProjection.valueOf("THEATER"));
+		return new ResponseEntity<List<CinemaTheater>>(theaters, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value="/registerCinema", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public  ResponseEntity<CinemaTheater> registerCinema(@RequestBody CinemaTheater cinema) {
 		System.out.println("usaooooo");
 		cinema.setType(enumProjection.CINEMA);
 		CinemaTheater newCinema = cinemaTheaterService.save(cinema);
 		return new ResponseEntity<>(newCinema, HttpStatus.OK);
+	}
+	@RequestMapping(value="/registerTheater", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public  ResponseEntity<CinemaTheater> registerTheater(@RequestBody CinemaTheater theater) {
+		System.out.println("usaooooo");
+		theater.setType(enumProjection.THEATER);
+		CinemaTheater newTheater = cinemaTheaterService.save(theater);
+		return new ResponseEntity<>(newTheater, HttpStatus.OK);
 	}
 }
