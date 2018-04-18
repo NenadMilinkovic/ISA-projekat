@@ -21,7 +21,12 @@ isaApp.config(function($routeProvider) {
     	templateUrl : "Cinemas.html"
     }).when("/funZone",{
     	templateUrl : "funZone.html"
+    }).when("/profil",{
+    	templateUrl : "profil.html"
+    }).when("/changePassword",{
+    	templateUrl : "changePassword.html"
     })
+
 });
 
 isaApp.factory('isaService', function isaService($http){

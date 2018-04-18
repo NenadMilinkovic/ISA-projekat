@@ -27,6 +27,12 @@ public class JpaFunZoneImpl implements FunZoneService {
 	}
 	
 	@Override
+	public List<Ad> findByType(enumProps official) {
+		// TODO Auto-generated method stub
+			return funZoneRepository.findByType(official);
+	}
+	
+	@Override
 	public Ad findOne(Long id) {
 		return funZoneRepository.findOne(id);
 	}

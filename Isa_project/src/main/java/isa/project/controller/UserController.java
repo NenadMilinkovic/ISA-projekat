@@ -45,6 +45,7 @@ public class UserController {
 		user.setUserRole(Role.USER);
 		user.setStatus(Status.NOT_ACTIVATED);
 		user.setSalt(PasswordStorage.createSalt());
+		user.setRating(0);
 		
 		String hashedPassword;
 		try {

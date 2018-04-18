@@ -161,8 +161,18 @@ isaApp.controller('RegistrationController', ['$rootScope','$scope','$routeParams
 			{
 				alert("Welcome " + $scope.loggedInUser.name);
 //				console.log($scope.loggedInUser);
+				if($scope.loggedInUser.firstLogIn == false && $scope.loggedInUser.userRole == 'ADMIN_OF_FAN_ZONE'){
+					console.log($scope.loggedInUser.firstLogIn);
+					$location.path("/changePassword");
+				}
+				
+				
+				
+				console.log("zastooooo");
 				$location.path("/homePage");
 			}
+			
+			
 		},
 		function(data) {
 	        // Handle error here

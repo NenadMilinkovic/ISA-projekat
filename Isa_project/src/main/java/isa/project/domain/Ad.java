@@ -1,12 +1,25 @@
 package isa.project.domain;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "Oglas")
 public class Ad {
@@ -22,18 +35,26 @@ public class Ad {
 	private String name;
 	@Column(name="description", unique=false, nullable=false)
 	private String description;
-	@Column(name="valid_to", unique=false, nullable=false)
-	private String valid_to;
+	@Column(name="valid_to", unique=false)
+	private Date valid_to;
 	@Column(name="photo", unique=false, nullable=true)
 	private String photo;
 	@Column(name="price", unique=false, nullable=false)
 	private int price;
-	@Column(name="approved", unique=false, nullable=false)
-	private boolean approved;
+	@Column(name="approved", unique=false)
+	private Boolean approved;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ad")
+	@JsonIgnore
+    private List<Offer> offers = new ArrayList<Offer>();
+	
+	@ManyToOne
+	private User creator;
+	
 	public Ad() {
 		super();
 	}
-	public Ad(enumProps type, String name, String description, String valid_to, String photo, int price, boolean approved) {
+	public Ad(enumProps type, String name, String description, Date valid_to, String photo, int price, boolean approved) {
 		super();
 		this.type = type;
 		this.name = name;
@@ -67,10 +88,10 @@ public class Ad {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getValid_to() {
+	public Date getValid_to() {
 		return valid_to;
 	}
-	public void setValid_to(String valid_to) {
+	public void setValid_to(Date valid_to) {
 		this.valid_to = valid_to;
 	}
 	public String getPhoto() {
@@ -85,11 +106,23 @@ public class Ad {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public boolean isApproved() {
+	public Boolean isApproved() {
 		return approved;
 	}
-	public void setApproved(boolean approved) {
+	public void setApproved(Boolean approved) {
 		this.approved = approved;
+	}
+	public List<Offer> getOffers() {
+		return offers;
+	}
+	public void setOffers(List<Offer> offers) {
+		this.offers = offers;
+	}
+	public User getCreator() {
+		return creator;
+	}
+	public void setCreator(User creator) {
+		this.creator = creator;
 	}
 	
 	

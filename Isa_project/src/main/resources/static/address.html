@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<title>Home</title>
+<title>Home</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="bootstrap/images/icons/favicon.png"/>
@@ -32,17 +32,38 @@
 	<script src="js/registration.js"></script>
 	<script src="js/cinemas.js"></script>
 	<script src="js/funZone.js"></script>
- 
-<!-- Latest compiled and minified JavaScript -->
-	<!-- <script type="text/javascript" src="js/angular-route.min.js"></script> -->
+
+
+<script>
+function initMap() {
+	
+	url = document.URL
+	ulica = url.split('#')[1];
+	console.log(ulica);
+    $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + ulica, function(data){
+    	
+    	
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 17,
+            center: data.results[0].geometry.location
+
+        });
+        var marker = new google.maps.Marker({
+            position: data.results[0].geometry.location,
+            map: map
+        });
+    })
+
+}
+</script> 
+    
+   	 <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJxwhTLTHcKq2Y9KK5tlMkB8YVRLLHGZo&callback=initMap">
+    </script>
+    
 </head>
-<body ng-app="isaApp">
-	<div id="header-wrapper" >
-		<div id="header" class="container" style="">
-			<div ng-view></div>
-		</div>
-	</div>
+<body>
+
+<div id="map" style="width:400px;height:400px"></div>
 </body>
-
-
 </html>

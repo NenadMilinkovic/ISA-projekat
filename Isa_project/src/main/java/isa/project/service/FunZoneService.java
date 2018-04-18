@@ -22,4 +22,6 @@ public interface FunZoneService {
 	void delete(List<Long> ids);
 	
 	public List<Ad> findByApproved(boolean approved);
+	
+	public List<Ad> findByType(enumProps official);
 }
