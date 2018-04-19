@@ -71,8 +71,6 @@ public class UserController {
 			if(cinemas.get(i).getId() == id){
 				user.setCinemaTheater(cinemas.get(i));
 				cinemas.get(i).getCinemaTheaterAdmin().add(user);
-			//	cinemaTheaterService.delete(cinemas.get(i).getId());
-			//	CinemaTheater save = cinemaTheaterService.save(cinemas.get(i));
 			}
 		}
 		user.setStatus(Status.NOT_ACTIVATED);

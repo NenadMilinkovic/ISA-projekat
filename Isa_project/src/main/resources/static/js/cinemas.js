@@ -93,7 +93,7 @@ app.controller(
 						address = $scope.selected.adress;
 						console.log($scope.selected.adress);
 					}
-					$scope.setSelected = function(selected) {
+					$scope.setSelected2 = function(selected) {
 						$scope.selected = selected;
 						$rootScope.theater = $scope.selected;
 						$scope.selectedTheaterAdmin = null;
