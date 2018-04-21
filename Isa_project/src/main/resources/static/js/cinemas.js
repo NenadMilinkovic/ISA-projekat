@@ -1,3 +1,4 @@
+
 var app = angular.module('isaApp');
 
 app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
@@ -7,7 +8,25 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 			url : 'isa/cinemaTheater/getCinemas'
 		});
 	}
-	
+	cinemaTheaterService.getTheaters = function() {
+			return $http({
+				method : 'GET',
+				url : 'isa/cinemaTheater/getTheaters'
+			});
+		}
+	cinemaTheaterService.registerTheater = function(theater) {
+		return $http({
+			method : 'POST',
+			url : 'isa/cinemaTheater/registerTheater',
+			data : {
+				"name" : theater.name,
+				"type" : 'THEATER',
+				"description" : theater.description,
+				"adress" : theater.adress,
+				"rating" : 0
+			}
+		});
+	}
 	cinemaTheaterService.registerCinema = function(cinema) {
 		return $http({
 			method : 'POST',
@@ -38,6 +57,14 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 			}
 		});
 	}
+	
+	cinemaTheaterService.getLoggedInUser = function() {
+		return $http({
+			method : 'GET',
+			url : 'user/getLoggedInUser'
+		});
+	}
+	
 	return cinemaTheaterService;
 });
 
@@ -63,8 +90,42 @@ app.controller(
 						$scope.show = null;
 						$scope.cinema = null;
 						$scope.newCinemaAdmin = null;
+						address = $scope.selected.adress;
+						console.log($scope.selected.adress);
+					}
+					$scope.setSelected2 = function(selected) {
+						$scope.selected = selected;
+						$rootScope.theater = $scope.selected;
+						$scope.selectedTheaterAdmin = null;
+						$scope.show = null;
+						$scope.theater = null;
+						$scope.newTheaterAdmin = null;
 
 					}
+					cinemaTheaterService.getTheaters().then(function(response) {
+						console.log('fja kontr');
+						console.log(response.data);
+						$scope.theaters = response.data;
+						
+					}, function myError(response) {
+						
+				    });
+				
+				$scope.registerTheater = function() {
+					var theater = $scope.theater;
+					cinemaTheaterService.registerTheater(
+							theater).then(
+							function(response) {
+								console.log(response.data);
+								if (response.data) {
+									alert('Successfuly registrated theater')
+									$scope.show = null;
+									$route.reload();
+								}
+							}, function myError(response) {
+								
+						    });
+				}
 					
 					cinemaTheaterService.getCinemas().then(function(response) {
 							console.log('fja kontr');
@@ -110,7 +171,27 @@ app.controller(
 						
 								});
 						
+					}				
+					
+					$scope.verifyPassword = function(password, passwordCheck)
+					{
+						if(password != passwordCheck)
+							$scope.noMatch = true;
+						else if(password == passwordCheck)
+							$scope.noMatch = false;
 					}
+					
+					cinemaTheaterService.getLoggedInUser().then(function(response) {
+						
+						console.log(response.data);
+						$scope.loginUserRole = 0;
+						if(response.data.userRole == 'ADMIN'){
+							$scope.loginUserRole = 1;
+						}
+						
+					}, function myError(response) {
+						
+				    });
 					
 				}
 				

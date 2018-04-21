@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isa.project.domain.Ad;
+import isa.project.domain.enumProps;
 import isa.project.repositories.FunZoneRepository;
 import isa.project.service.FunZoneService;
 
@@ -21,6 +22,12 @@ public class JpaFunZoneImpl implements FunZoneService {
 	public List<Ad> findByApproved(boolean approved) {
 		// TODO Auto-generated method stub
 			return funZoneRepository.findByApproved(approved);
+	}
+	
+	@Override
+	public List<Ad> findByType(enumProps official) {
+		// TODO Auto-generated method stub
+			return funZoneRepository.findByType(official);
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package isa.project.service;
 import java.util.List;
 
 import isa.project.domain.Ad;
+import isa.project.domain.enumProps;
 
 public interface FunZoneService {
 
@@ -19,4 +20,6 @@ public interface FunZoneService {
 	void delete(List<Long> ids);
 	
 	public List<Ad> findByApproved(boolean approved);
+	
+	public List<Ad> findByType(enumProps official);
 }

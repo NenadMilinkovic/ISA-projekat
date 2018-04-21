@@ -1,8 +1,16 @@
 package isa.project.domain;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="Users")
@@ -58,8 +66,23 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
+	@Column(name="firstLogIn", unique=false)
+	private boolean firstLogIn;
+	
+	@Column(name="rating", unique=false)
+	private int rating;
+	
 	@ManyToOne
 	private CinemaTheater cinemaTheater;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonIgnore
+    private List<Offer> offers;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "creator")
+	@JsonIgnore
+    private List<Ad> ads;
+
 	
 	public CinemaTheater getCinemaTheater() {
 		return cinemaTheater;
@@ -124,6 +147,31 @@ public class User {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;	
+	}
+	public List<Offer> getOffers() {
+		return offers;
+	}
+	public void setOffers(List<Offer> offers) {
+		this.offers = offers;
+	}
+	@Transactional
+	public List<Ad> getAds() {
+		return ads;
+	}
+	public void setAds(List<Ad> ads) {
+		this.ads = ads;
+	}
+	public boolean isFirstLogIn() {
+		return firstLogIn;
+	}
+	public void setFirstLogIn(boolean firstLogIn) {
+		this.firstLogIn = firstLogIn;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 
 	

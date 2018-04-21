@@ -20,6 +20,10 @@ isaApp.config(function($routeProvider) {
     .when("/cinemas",{
     	templateUrl : "Cinemas.html"
     		
+    })
+    .when("/theaters",{
+    	templateUrl : "Theaters.html"
+    
     }).when("/funZone",{
     	templateUrl : "funZone.html"
     		
@@ -27,8 +31,17 @@ isaApp.config(function($routeProvider) {
     	templateUrl : "confirmReservation.html"
     		
     }).when("/cancel", {
+    
         templateUrl : "cancelReservation.html"
+        
+    }).when("/profil",{
+    	templateUrl : "profil.html"
+    	
+    }).when("/changePassword",{
+    	templateUrl : "changePassword.html"
+    
     })
+
 });
 
 isaApp.factory('isaService', function isaService($http){

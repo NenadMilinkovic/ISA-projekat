@@ -37,6 +37,7 @@
 
 
 <!-- Slide1 -->
+<!--  
 <section class="section-slide">
 	<div class="wrap-slick1">
 		<div class="slick1">
@@ -51,7 +52,7 @@
 					</h2>
 
 					<div class="wrap-btn-slide1 animated visible-false" data-appear="zoomIn">
-						<!-- Button1 -->
+					
 						<a href="signin.html" class="btn1 flex-c-m size1 txt3 trans-0-4">
 							Look Cinema
 						</a>
@@ -70,7 +71,7 @@
 					</h2>
 
 					<div class="wrap-btn-slide1 animated visible-false" data-appear="slideInUp">
-						<!-- Button1 -->
+					
 						<a href="signin.html" class="btn1 flex-c-m size1 txt3 trans-0-4">
 							Look Theater
 						</a>
@@ -82,11 +83,85 @@
 		<div class="wrap-slick1-dots"></div>
 	</div>
 </section>
-
+-->
 
 
 <!-- Sign up -->
 <div class="section-signup bg1-pattern p-t-85 p-b-85">
+<div ng-controller="CinemaTheaterController">
+<br></br>
+  
+<input type="checkbox"  ng-model="showcinema"/>CINEMA 
+<input type="checkbox"  ng-model="showtheater" >THEATER  
+<br></br>
+
+
+<div class="container" name="c" ng-show="showcinema">
+ 	
+	<h3 align="center">Cinemas</h3>
+	Search: <input type="text" placeholder="Search" ng-model="searchCinema" />
+	<div class="table-responsive" >
+		
+		<br></br>
+		<table class="table">
+			<thead>
+				<tr>
+					
+					<th>Name</th>
+					<th>Rating</th>
+					<th>Adress</th>
+
+				</tr>
+			</thead>
+			<tbody>
+			
+				<tr ng-repeat="cinema in cinemas |filter: searchCinema"
+				ng-click="setSelected(cinema)"
+				ng-class="{'info' : selected===cinema}">
+					
+					<td>{{cinema.name}}</td>
+					<td>{{cinema.rating}}</td>
+					<td>{{cinema.adress}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+	
+</div>
+
+<div class="container" name="t" ng-show="showtheater">
+ 	
+	<h3 align="center">Theaters</h3>
+	Search: <input type="text" placeholder="Search" ng-model="searchTheater" />
+	<div class="table-responsive" >
+		
+		<br></br>
+		<table class="table">
+			<thead>
+				<tr>
+					
+					<th>Name</th>
+					<th>Rating</th>
+					<th>Address</th>
+
+				</tr>
+			</thead>
+			<tbody>
+			
+				<tr ng-repeat="theater in theaters |filter: searchTheater"
+				ng-click="setSelected(theater)"
+				ng-class="{'info' : selected===theater}">
+					
+					<td>{{theater.name}}</td>
+					<td>{{theater.rating}}</td>
+					<td>{{theater.adress}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+
+</div>
+</div>
 	<form class="flex-c-m flex-w flex-col-c-m-lg p-l-5 p-r-5">
 		<span class="txt5 m-10">
 			Specials Sign up
