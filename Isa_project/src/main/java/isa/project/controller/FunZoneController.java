@@ -133,7 +133,7 @@ public class FunZoneController {
 		
 		User user = (User)httpSession.getAttribute("user");
 		user.setRating(user.getRating() + creditRatingService.findOne(1L).getForBuyOfficialProp());
-		userService.createNewUser(user);
+//		userService.createNewUser(user);
 		System.out.println(user.getRating());
 		Ad deleted = funZoneService.delete(ad.getId());
 		

@@ -237,7 +237,8 @@ public class UserController {
 			}
 		}
 //		za inicijalno kreiranje halls i terms zbog seats
-//			createData();
+		
+		//createData();
 		
 		return new ResponseEntity<User>(logged, HttpStatus.OK);
 	}
@@ -377,7 +378,7 @@ public class UserController {
 		}
 		
 		Hall hall = new Hall();
-		hall.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(1)));
+		hall.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(458754)));
 		hall.setColumns(5);
 		hall.setRows(5);
 		hall.setName("A1");
@@ -385,7 +386,7 @@ public class UserController {
 		hallService.createNewHall(hall);
 		
 		Hall hall1 = new Hall();
-		hall1.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(1)));
+		hall1.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(458754)));
 		hall1.setColumns(5);
 		hall1.setRows(5);
 		hall1.setName("A2");
@@ -393,7 +394,7 @@ public class UserController {
 		hallService.createNewHall(hall1);
 		
 		Hall hall2 = new Hall();
-		hall2.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(1)));
+		hall2.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(458754)));
 		hall2.setColumns(5);
 		hall2.setRows(5);
 		hall2.setName("B1");
@@ -401,7 +402,7 @@ public class UserController {
 		hallService.createNewHall(hall2);
 	
 		Projection pr1 = new Projection();
-		pr1.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(1)));
+		pr1.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(458754)));
 		pr1.setActors("Actors");
 		pr1.setDescription("Desc");
 		pr1.setDirector("Dir");
@@ -411,7 +412,7 @@ public class UserController {
 		projectionService.save(pr1);
 		
 		Projection pr2 = new Projection();
-		pr2.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(1)));
+		pr2.setCinemaTheater(cinemaTheaterService.findOne(Long.valueOf(458754)));
 		pr2.setActors("Actors");
 		pr2.setDescription("Desc");
 		pr2.setDirector("Dir");

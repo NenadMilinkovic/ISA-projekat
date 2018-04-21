@@ -54,6 +54,7 @@ app.factory('FunZoneService', function funZoneService($http) {
 	}
 	
 	funZoneService.createOfficialAd = function(ad) {
+		console.log(ad.description);
 		return $http({
 			method : 'POST',
 			url : 'funZone/createOfficialAd',
@@ -123,6 +124,7 @@ app.factory('FunZoneService', function funZoneService($http) {
 	}
 	
 	funZoneService.buyProp = function(ad) {
+		console.log(ad);
 		return $http({
 			method : 'POST',
 			url : 'funZone/buyProp',
@@ -460,7 +462,7 @@ app.controller(
 					}
 					
 					$scope.buyProp = function(ad) {
-
+console.log(ad);
 						funZoneService.buyProp(
 								ad).then(
 								function(response) {

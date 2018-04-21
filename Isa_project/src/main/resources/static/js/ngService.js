@@ -369,6 +369,7 @@ isaApp.factory('isaService', function isaService($http){
 	
 	isaService.getProjectionsName = function(id)
 	{
+		console.log(id);
 		var config = {
 				params: {id :id}
 		};

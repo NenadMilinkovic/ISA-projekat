@@ -36,6 +36,7 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 				"type" : 'CINEMA',
 				"description" : cinema.description,
 				"adress" : cinema.adress,
+				"city" : cinema.city,
 				"rating" : 0
 			}
 		});

@@ -36,15 +36,15 @@
 		<div class="col-sm-9">
 			<input type="text" class="form-control" id="price2" name="price"
 				placeholder="Enter price" required
-				ng-Model="$parent.ad.price">
+				ng-Model="$parent.ad.price" pattern = "^[0-9]*" >
 		</div>
 	</div>
 	</div>
 		 <div role="alert" style="color:red">
        <span class="error" ng-show="myForm.price.$error.maxlength">
         Too long!</span>
-        <span class="error" ng-show="myForm.price.$error.pattern">
-        Example with all permited letters : "Sasa_da nekaNsda87" !</span>
+        <span class="error" ng-show="myForm.price2.$error.pattern">
+        Must enter nubmers!</span>
     </div>
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">

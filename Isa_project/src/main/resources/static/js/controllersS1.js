@@ -164,20 +164,17 @@ isaApp.controller('RegistrationController', ['$rootScope','$scope','$routeParams
 				$location.path("/login");
 			}else if($scope.loggedInUser.status == "ACTIVATED")
 			{
-				alert("Welcome " + $scope.loggedInUser.name);
-<<<<<<< HEAD
-=======
+				//alert("Welcome " + $scope.loggedInUser.name);
 //				console.log($scope.loggedInUser);
 				if($scope.loggedInUser.firstLogIn == false && $scope.loggedInUser.userRole == 'ADMIN_OF_FAN_ZONE'){
 					console.log($scope.loggedInUser.firstLogIn);
+					console.log($scope.loggedInUser.userRole);
 					$location.path("/changePassword");
+				}else{
+				
+				
+					$location.path("/homePage");
 				}
-				
-				
-				
-				console.log("zastooooo");
->>>>>>> branch 'master' of https://github.com/NenadMilinkovic/ISA-projekat
-				$location.path("/homePage");
 			}
 			
 			
@@ -576,6 +573,7 @@ isaApp.controller('HomePageController', ['$rootScope','$scope','$routeParams','$
 			isaService.getCinemas().then(function(response)
 			{
 				$scope.all = response.data.sort();
+				console.log($scope.all);
 			});
 			
 		}else if($scope.reserveTypes.value == 'theater')
@@ -788,9 +786,11 @@ isaApp.controller('HomePageController', ['$rootScope','$scope','$routeParams','$
 	
 	$scope.getValues = function()
 	{
-		isaService.getProjectionsName($scope.all.id).then(function(response)
+		console.log($scope.allProjections.id);
+		isaService.getProjectionsName($scope.allProjections.id).then(function(response)
 		{
 			$scope.projectionName = response.data;
+			console.log("aaaa" + $scope.projectionName);
 		});
 	}
 	

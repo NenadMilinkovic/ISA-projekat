@@ -44,8 +44,9 @@ public class ProjectionController {
 	@RequestMapping(value = "/getNames", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Projection> getProjectionsName(@RequestParam Long id)
 	{
+		System.out.println("ppp " + id);
 		Projection projection = projectionService.findOne(id);
-		
+		System.out.println("ppp " + projection);
 		return new ResponseEntity<>(projection, HttpStatus.OK);
 	}
 }
