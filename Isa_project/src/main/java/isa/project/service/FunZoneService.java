@@ -3,9 +3,6 @@ package isa.project.service;
 import java.util.List;
 
 import isa.project.domain.Ad;
-import isa.project.domain.CinemaTheater;
-import isa.project.domain.enumProjection;
-import isa.project.domain.enumProps;
 
 public interface FunZoneService {
 

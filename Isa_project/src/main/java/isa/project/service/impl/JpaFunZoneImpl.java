@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isa.project.domain.Ad;
-import isa.project.domain.CinemaTheater;
-import isa.project.domain.enumProjection;
-import isa.project.domain.enumProps;
 import isa.project.repositories.FunZoneRepository;
 import isa.project.service.FunZoneService;
 
