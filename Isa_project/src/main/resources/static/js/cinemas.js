@@ -1,3 +1,4 @@
+
 var app = angular.module('isaApp');
 
 app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
@@ -36,6 +37,7 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 				"type" : 'CINEMA',
 				"description" : cinema.description,
 				"adress" : cinema.adress,
+				"city" : cinema.city,
 				"rating" : 0
 			}
 		});
@@ -71,6 +73,14 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 			}
 		});
 	}*/
+
+	cinemaTheaterService.getLoggedInUser = function() {
+		return $http({
+			method : 'GET',
+			url : 'user/getLoggedInUser'
+		});
+	}
+
 	
 	return cinemaTheaterService;
 });
@@ -105,9 +115,10 @@ app.controller(
 						$scope.show = null;
 						$scope.cinema = null;
 						$scope.newCinemaAdmin = null;
-
+						address = $scope.selected.adress;
+						console.log($scope.selected.adress);
 					}
-					$scope.setSelected = function(selected) {
+					$scope.setSelected2 = function(selected) {
 						$scope.selected = selected;
 						$rootScope.theater = $scope.selected;
 						$scope.selectedTheaterAdmin = null;
@@ -187,9 +198,32 @@ app.controller(
 						
 								});
 						
+					}				
+					
+					$scope.verifyPassword = function(password, passwordCheck)
+					{
+						if(password != passwordCheck)
+							$scope.noMatch = true;
+						else if(password == passwordCheck)
+							$scope.noMatch = false;
+					}
 					}
 
-					}
-									
+					
+					cinemaTheaterService.getLoggedInUser().then(function(response) {
+						
+						console.log(response.data);
+						$scope.loginUserRole = 0;
+						if(response.data.userRole == 'ADMIN'){
+							$scope.loginUserRole = 1;
+						}
+						
+					}, function myError(response) {
+						
+				    });
+					
+				}
+				
+
 				
 		]);

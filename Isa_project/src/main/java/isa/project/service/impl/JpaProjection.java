@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import isa.project.domain.CinemaTheater;
 import isa.project.domain.Projection;
 import isa.project.repositories.ProjectionRepository;
 import isa.project.service.ProjectionService;
@@ -54,6 +55,18 @@ public class JpaProjection implements ProjectionService {
 			this.delete(id);
 		}
 		
+	}
+
+	@Override
+	public List<Projection> findByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Projection> findById(CinemaTheater ct) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

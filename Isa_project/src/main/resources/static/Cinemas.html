@@ -6,7 +6,7 @@
 		<table class="table" ng-click="display(3)">
 			<thead>
 				<tr>
-					
+					<th>Id</th>
 					<th>Name</th>
 					<th>Description</th>
 					<th>Address</th>
@@ -17,19 +17,25 @@
 				<tr ng-repeat="cinema in cinemas |filter: searchCinema"
 				ng-click="setSelected(cinema)"
 				ng-class="{'info' : selected===cinema}">
-					
+					<td>{{cinema.id}}</td>
 					<td>{{cinema.name}}</td>
 					<td>{{cinema.description}}</td>
-					<td>{{cinema.adress}}</td>
+					<td><a href="address.html#{{cinema.city + ' '  + cinema.adress}}">View address</a></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<button type="button" class="btn btn-primary" ng-click=showView(1)>New cinema</button>
-	<button type="button" class="btn btn-primary" ng-disabled="!selected" ng-click=showView(2)>Register cinema admin</button>
+	<div ng-if="loginUserRole==1">
+		<button type="button" class="btn btn-primary" ng-click=showView(1)>New cinema</button>
+		<button type="button" class="btn btn-primary" ng-disabled="!selected" ng-click=showView(2)>Register cinema admin</button>
+	</div>
 	
 	<div ng-show="show==1" ng-include src="'registerCinema.html'"></div>
 	<div ng-show="show==2" ng-include src="'registerCinemaTheaterAdmin.html'"></div>
 	<div ng-show="show==3" ng-include src="'detailsCinemaTheater.html'"></div>
+
 </div>
+
 </div>
+
+

@@ -1,8 +1,8 @@
 package isa.project.domain;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,18 +21,25 @@ public class CinemaTheater {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-private Long id;
-@Column(name="tip", unique=false, nullable=false)
+	@Column(name="id", unique=false, nullable=false)
+	private Long id;
 	@Enumerated(EnumType.STRING)
 	private enumProjection type;
+	
 	@Column(name="name", unique=false, nullable=false)
 	private String name;
+	
 	@Column(name="adress", unique=false, nullable=false)
 	private String adress;
+	
 	@Column(name="description", unique=false, nullable=false)
 	private String description;
+	
 	@Column(name="rating", unique=false, nullable=false)
 	private float rating;
+	
+	@Column(name="city", unique=false, nullable= false)
+	private String city;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinemaTheater")
 	@JsonIgnore
@@ -50,7 +57,7 @@ private Long id;
 		super();
 	}
 
-	public CinemaTheater(enumProjection type, String name, String adress, String description,
+	public CinemaTheater(enumProjection type, String name, String adress, String description, String city,
 			float rating) {
 		super();
 		this.type = type;
@@ -58,6 +65,7 @@ private Long id;
 		this.adress = adress;
 		this.description = description;
 		this.rating = rating;
+		this.city = city;
 	}
 	public Long getId() {
 		return id;
@@ -101,20 +109,14 @@ private Long id;
 	public void setCinemaTheaterAdmin(List<User> cinemaTheaterAdmin) {
 		this.cinemaTheaterAdmin = cinemaTheaterAdmin;
 	}
-/*	public List<Hall> getHalls() {
-		return halls;
+
+
+	public String getCity() {
+		return city;
 	}
-	public void setHalls(List<Hall> halls) {
-		this.halls = halls;
+	public void setCity(String city) {
+		this.city = city;
 	}
-	public List<Projection> getProjections() {
-		return projections;
-	}
-	public void setProjections(List<Projection> projections) {
-		this.projections = projections;
-	}
-	
-	*/
 	
 }
 

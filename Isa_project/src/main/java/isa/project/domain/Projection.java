@@ -1,6 +1,20 @@
 package isa.project.domain;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import java.util.ArrayList;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,59 +29,57 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity(name="Projection")
+@Entity
+@Table(name = "PROJECTION")
+
 public class Projection {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue
+	@Column(name = "PROJECTION_ID", updatable = false, nullable = false, insertable=false)
 	private Long id;
-
-	@Column(name="name", unique=false, nullable=false)
+	
+	@Size(min = 2, max = 30)
+	@Pattern(regexp = "^[A-Z][a-z_ A-Z]*")
+	@NotNull
+	@Column(name = "PROJECTION_NAME", unique = false, nullable = false)
 	private String name;
-	@Column(name="actors", unique=false, nullable=false)
-	private ArrayList<String> actors = new ArrayList<String>();
-	@Column(name="genre", unique=false, nullable=false)
+	
+	@Size(min = 2, max = 30)
+	@Pattern(regexp = "^[A-Z][a-z_ A-Z]*")
+	@NotNull
+	@Column(name = "PROJECTION_GENRE", nullable = false)
 	private String genre;
-	@Column(name="director", unique=false, nullable=false)
+	
+	@Size(max = 50)
+	@Pattern(regexp = "^[A-Z][a-z_ A-Z]*")
+	@Column(name = "PROJECTION_DIRECTOR")
 	private String director;
-	@Column(name="duration", unique=false, nullable=false)
-	private String duration;
-	@Column(name="poster", unique=false, nullable=false)
+	
+	@Temporal(TemporalType.TIME)
+	@DateTimeFormat(pattern="hh:mm")
+	@NotNull
+	@Column(name = "PROJECTION_DURATION", nullable = false)
+	private Date duration;
+	
+	@Size(max = 200)
+	@Column(name = "PROJECTION_ACTORS")
+	private String actors;
+	
+	@Size(max = 100)
+	@Pattern(regexp = "^[A-Z][a-z_ A-Z]*")
+	@Column(name = "PROJECTION_POSTER")
 	private String poster;
-	@Column(name="rating", unique=false, nullable=false)
-	private float rating;
-	@Column(name="description", unique=false, nullable=false)
+	
+	@Size(max = 300)
+	@Column(name = "PROJECTION_DESCRIPTION")
 	private String description;
-	//u kojim salama se projektuje
-/*	@OneToMany(fetch = FetchType.LAZY, mappedBy = "Projection", cascade = CascadeType.ALL)
-	@JsonIgnore
-	private ArrayList<Hall> halls = new ArrayList<Hall>();
-	*/
-	@Column(name="price", unique=false, nullable=false)
-	private float price;
 	
-	@Column(name="time", unique=false, nullable=false)
-	private ArrayList<Integer> time;
+	@NotNull
+	@OneToOne
+	@JoinColumn(name="CT_ID")
+	private CinemaTheater cinemaTheater;
 
-	
-	public Projection(String name, ArrayList<String> actors, String genre, String director,
-			String duration, String poster, float rating, String description, ArrayList<Hall> halls, float price,
-			ArrayList<Integer> time) {
-		super();
-		this.name = name;
-		this.actors = actors;
-		this.genre = genre;
-		this.director = director;
-		this.duration = duration;
-		this.poster = poster;
-		this.rating = rating;
-		this.description = description;
-//		this.halls = halls;
-		this.price = price;
-		this.time = time;
-	}
-	
-	
 	public Long getId() {
 		return id;
 	}
@@ -76,76 +88,69 @@ public class Projection {
 		this.id = id;
 	}
 
-
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ArrayList<String> getActors() {
-		return actors;
-	}
-	public void setActors(ArrayList<String> actors) {
-		this.actors = actors;
-	}
-	
-	public ArrayList<Integer> getTime() {
-		return time;
-	}
-	public void setTime(ArrayList<Integer> time) {
-		this.time = time;
-	}
-	
+
 	public String getGenre() {
 		return genre;
 	}
+
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
+
 	public String getDirector() {
 		return director;
 	}
+
 	public void setDirector(String director) {
 		this.director = director;
 	}
-	public String getDuration() {
+
+	public Date getDuration() {
 		return duration;
 	}
-	public void setDuration(String duration) {
+
+	public void setDuration(Date duration) {
 		this.duration = duration;
 	}
+
+	public String getActors() {
+		return actors;
+	}
+
+	public void setActors(String actors) {
+		this.actors = actors;
+	}
+
 	public String getPoster() {
 		return poster;
 	}
+
 	public void setPoster(String poster) {
 		this.poster = poster;
 	}
-	public float getRating() {
-		return rating;
-	}
-	public void setRating(float rating) {
-		this.rating = rating;
-	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-/*	public ArrayList<Hall> getHalls() {
-		return halls;
+
+	public CinemaTheater getCinemaTheater() {
+		return cinemaTheater;
 	}
-	public void setHalls(ArrayList<Hall> halls) {
-		this.halls = halls;
-	}*/
-	public float getPrice() {
-		return price;
+
+	public void setCinemaTheater(CinemaTheater cinemaTheater) {
+		this.cinemaTheater = cinemaTheater;
 	}
-	public void setPrice(float price) {
-		this.price = price;
-	}
-	
 	
 }
+

@@ -16,4 +16,11 @@ public interface ProjectionRepository extends JpaRepository<Projection,Long> {
 	public List<Projection> findAll();
 	
 	public Projection findOne(Long id);
+/*
+public interface ProjectionRepository extends JpaRepository<Projection, Long>{
+
+	public List<Projection> findByName(String name);
+	
+	public List<Projection> findById(Long id);
+	*/
 }
