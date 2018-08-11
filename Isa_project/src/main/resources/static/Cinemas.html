@@ -3,7 +3,7 @@
 <div class="container" >
 	Search: <input type="text" placeholder="Search cinema" ng-model="searchCinema" />
 	<div class="table-responsive">
-		<table class="table">
+		<table class="table" ng-click="display(3)">
 			<thead>
 				<tr>
 					
@@ -30,5 +30,6 @@
 	
 	<div ng-show="show==1" ng-include src="'registerCinema.html'"></div>
 	<div ng-show="show==2" ng-include src="'registerCinemaTheaterAdmin.html'"></div>
+	<div ng-show="show==3" ng-include src="'detailsCinemaTheater.html'"></div>
 </div>
 </div>

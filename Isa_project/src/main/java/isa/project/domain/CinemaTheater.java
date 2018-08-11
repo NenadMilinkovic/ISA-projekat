@@ -21,8 +21,8 @@ public class CinemaTheater {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	private Long id;
-	@Column(name="tip", unique=false, nullable=false)
+private Long id;
+@Column(name="tip", unique=false, nullable=false)
 	@Enumerated(EnumType.STRING)
 	private enumProjection type;
 	@Column(name="name", unique=false, nullable=false)
@@ -34,13 +34,22 @@ public class CinemaTheater {
 	@Column(name="rating", unique=false, nullable=false)
 	private float rating;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinemaTheater", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinemaTheater")
 	@JsonIgnore
     private List<User> cinemaTheaterAdmin;
 	
+/*	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinemaTheater")
+	@JsonIgnore
+    private List<Hall> halls;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinemaTheater")
+	@JsonIgnore
+    private List<Projection> projections;
+	*/
 	public CinemaTheater() {
 		super();
 	}
+
 	public CinemaTheater(enumProjection type, String name, String adress, String description,
 			float rating) {
 		super();
@@ -92,8 +101,20 @@ public class CinemaTheater {
 	public void setCinemaTheaterAdmin(List<User> cinemaTheaterAdmin) {
 		this.cinemaTheaterAdmin = cinemaTheaterAdmin;
 	}
-
+/*	public List<Hall> getHalls() {
+		return halls;
+	}
+	public void setHalls(List<Hall> halls) {
+		this.halls = halls;
+	}
+	public List<Projection> getProjections() {
+		return projections;
+	}
+	public void setProjections(List<Projection> projections) {
+		this.projections = projections;
+	}
 	
+	*/
 	
 }
 

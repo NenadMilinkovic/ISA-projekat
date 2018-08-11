@@ -103,7 +103,7 @@
 	<div class="table-responsive" >
 		
 		<br></br>
-		<table class="table">
+		<table class="table"  ng-click="display(3)">
 			<thead>
 				<tr>
 					
@@ -126,6 +126,8 @@
 			</tbody>
 		</table>
 	</div>	
+	<br/>
+	<br/>
 	
 </div>
 
@@ -136,7 +138,7 @@
 	<div class="table-responsive" >
 		
 		<br></br>
-		<table class="table">
+		<table class="table"  ng-click="display(3)" >
 			<thead>
 				<tr>
 					
@@ -159,8 +161,9 @@
 			</tbody>
 		</table>
 	</div>	
-
+<div ng-show="show==3" ng-include src="'detailsCinemaTheater.html'"></div>
 </div>
+
 </div>
 	<form class="flex-c-m flex-w flex-col-c-m-lg p-l-5 p-r-5">
 		<span class="txt5 m-10">
