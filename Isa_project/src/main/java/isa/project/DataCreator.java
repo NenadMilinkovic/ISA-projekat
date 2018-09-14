@@ -91,13 +91,5 @@ public class DataCreator {
 		hall.setSeats(byteMap);
 		hallService.createNewHall(hall2);
 		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 }

@@ -1,0 +1,35 @@
+<div class="container" align="justify">
+	<br/>
+	<br/>
+	
+	
+	<div >
+		<h2 align="center">
+		 	<label>{{projection.name}}</label>
+		</h2>
+		 	<br/>
+		<h4>
+		 	<label> Actors: {{projection.actors}}</label>
+		 	<br/>
+		 	<label> Description: {{projection.description}} </label>
+		 	<br/>
+		  	<label>Director: {{projection.director}} </label>
+		  	<br/>
+		  	<label>Genre: {{projection.genre}}</label>
+		  	<br/>
+		  	<label>Poster:</label>
+		  	<img src="{{projection.poster}}" height="100" width="100" />
+		  	<br/>
+		</h4>
+	</div>
+	
+
+	<div >
+	 	<button type="button" class="btn btn-primary" ng-click=showView(4)>Edit</button>
+	 	<button type="button" class="btn btn-primary" ng-click=showView(2)>Add Term</button>
+	 	<button type="button" class="btn btn-primary" ng-click=deleteProjection()>Delete</button>
+	</div>
+
+
+</div>
+</div>

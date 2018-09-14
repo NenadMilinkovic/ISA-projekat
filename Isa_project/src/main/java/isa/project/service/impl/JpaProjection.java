@@ -45,6 +45,7 @@ public class JpaProjection implements ProjectionService {
 	@Override
 	public Projection delete(Long id) {
 		// TODO Auto-generated method stub
+			projectionRepository.delete(id);
 		return null;
 	}
 

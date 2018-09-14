@@ -1,3 +1,4 @@
+<div ng-controller= "ProjectionController">
 <h1 class="page-header">Register projection</h1>
 <form class="form-horizontal" name="myForm" novalidate
 	style="width: 50%">
@@ -5,7 +6,7 @@
 		<label class="control-label col-sm-3" for="rn">Name:</label>
 		<div class="col-sm-9">
 			<input type="text" class="form-control" placeholder="Enter name" name="name"
-				required ng-Model="$parent.projection.name" id="rn" pattern = "^[A-Z][a-z_ A-Z]*" ng-minlength="3" ng-maxlength="30">
+				required ng-Model="$parent.$parent.newprojection.name" id="rn" pattern = "^[A-Z][a-z_ A-Z]*" ng-minlength="3" ng-maxlength="30">
 		</div>
 	</div>
 	<div role="alert" style="color:red">
@@ -19,7 +20,7 @@
 		<div class="col-sm-9">
 			<input type="text" class="form-control" id="des" name="des"
 				placeholder="Enter description" required
-				ng-Model="$parent.projection.description" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="100">
+				ng-Model="$parent.newprojection.description" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="100">
 		</div>
 	</div>
 	 <div role="alert" style="color:red">
@@ -27,11 +28,11 @@
         Too long!</span>
     </div>
      <div class="form-group">
-		<label class="control-label col-sm-3" for="adress">Actors:</label>
+		<label class="control-label col-sm-3" for="actors">Actors:</label>
 		<div class="col-sm-9">
 			<input type="text" class="form-control" id="actors" name="actors"
 				placeholder="Enter actors,with a comma between" required
-				ng-Model="$parent.projection.actors" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="70">
+				ng-Model="$parent.newprojection.actors" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="70">
 		</div>
 	</div>
 	 <div role="alert" style="color:red">
@@ -43,7 +44,7 @@
 		<div class="col-sm-9">
 			<input type="text" class="form-control" id="genre" name="genre"
 				placeholder="Enter genre" required
-				ng-Model="$parent.projection.genre" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="30">
+				ng-Model="$parent.newprojection.genre" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="30">
 		</div>
 	</div>
 	 <div role="alert" style="color:red">
@@ -51,11 +52,11 @@
         Too long!</span>
     </div>
      <div class="form-group">
-		<label class="control-label col-sm-3" for="director">Direcor:</label>
+		<label class="control-label col-sm-3" for="director">Director:</label>
 		<div class="col-sm-9">
 			<input type="text" class="form-control" id="director" name="director"
 				placeholder="Enter director" required
-				ng-Model="$parent.projection.director" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="30">
+				ng-Model="$parent.newprojection.director" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="30">
 		</div>
 	</div>
 	 <div role="alert" style="color:red">
@@ -64,57 +65,32 @@
     </div>
     
      <div class="form-group">
-		<label class="control-label col-sm-3" for="duration">Duration:</label>
+		<label class="control-label col-sm-3" >Duration:</label>
 		<div class="col-sm-9">
 			<input type="text" class="form-control" id="duration" name="duration"
-				placeholder="Enter duration" required
-				ng-Model="$parent.projection.durecion" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="10">
+				placeholder="Enter duration" 
+				ng-Model="$parent.newprojection.duration" >
 		</div>
-	</div>
-	 <div role="alert" style="color:red">
-       <span class="error" ng-show="myForm.durecion.$error.maxlength">
+  	</div>
+<!--	 <div role="alert" style="color:red">
+       <span class="error" ng-show="myForm.duration.$error.maxlength">
         Too long!</span>
-    </div>
-    
-     <div class="form-group">
+    </div> -->
+    <div class="form-group">
 		<label class="control-label col-sm-3" for="poster">Poster:</label>
 		<div class="col-sm-9">
-			<input type="file" class="form-control" id="poster" name="poster"
-				 required
-				ng-Model="$parent.projection.poster">
-				
-		</div>
-	
-		 <div class="form-group">
-		<label class="control-label col-sm-3" for="price">Price:</label>
-		<div class="col-sm-9">
-			<input type="text" class="form-control" id="price" name="price"
-				placeholder="Enter price" required
-				ng-Model="$parent.projection.price" pattern = "^[0-9]*" ng-maxlength="9">
+			<input type="file" class="form-control" id="poster" name="poster" accept="image/*"
+			 ng-Model="$parent.newproject.poster" onchange="uploadImage2()">
+			<img id="img" alt="slika" ng-show="$parent.newprojection.poster.src" ng-src="{{$parent.newprojection.poster.src}}" >
 		</div>
 	</div>
-	 <div role="alert" style="color:red">
-       <span class="error" ng-show="myForm.price.$error.maxlength">
-        Too long!</span>
-    </div>
-     <div class="form-group">
-		<label class="control-label col-sm-3" for="time">Time:</label>
-		<div class="col-sm-9">
-			<input type="text" class="form-control" id="time" name="time"
-				placeholder="Enter time" required
-				ng-Model="$parent.projection.time" pattern = "^[0-9]*" ng-maxlength="9">
-		</div>
-	</div>
-	 <div role="alert" style="color:red">
-       <span class="error" ng-show="myForm.time.$error.maxlength">
-        Too long!</span>
-    </div>
     
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<button type="submit" class="btn btn-success"
 				ng-Click="$parent.registerProjection()" title="Form invalid!"
-				data-toggle="tooltip" data-placement="top" ng-disabled="myForm.$invalid" tooltip>Submit</button>
+				data-toggle="tooltip" data-placement="top" ng-disabled="myForm.$invalid"  tooltip>Submit</button>
 		</div>
 	</div>
 </form>
+</div>

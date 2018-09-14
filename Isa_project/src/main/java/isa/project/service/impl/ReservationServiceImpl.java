@@ -80,6 +80,12 @@ public class ReservationServiceImpl implements ReservationService {
 		public List<Reservation> findReservationByStatus(User user, ReservationStatus reservationStatus) {
 			// TODO Auto-generated method stub
 			return reservationRepository.findReservationByStatus(user, reservationStatus);
+		}
+
+		@Override
+		public Reservation save(Reservation reservation) {
+			// TODO Auto-generated method stub
+			return reservationRepository.save(reservation);
 		}		
 
 	}

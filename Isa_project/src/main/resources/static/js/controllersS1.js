@@ -585,13 +585,8 @@ isaApp.controller('HomePageController', ['$rootScope','$scope','$routeParams','$
 		}
 	}
 	
-	$scope.getProjections = function(id)
-	{
-		isaService.getProjections(id).then(function(response)
-		{
-			$scope.allProjections = response.data.sort();
-		});
-	}
+	
+
 	
 
 	$scope.searchProj = function(th)
@@ -771,6 +766,47 @@ isaApp.controller('HomePageController', ['$rootScope','$scope','$routeParams','$
 	}
 	
 	
+	$scope.makeFastReservation = function()
+	{
+		var discount = document.getElementById("discount").value;
+
+		$scope.reservation = 
+		{
+				
+				projection: $scope.allProjections.id,
+				date: $scope.dates.id,
+				time: $scope.times.id,
+				hall: $scope.halls.id,
+				seats: $scope.reservationMatrix
+	
+		};
+		
+		isaService.makeFastReservation($scope.reservation,discount).then(function(response)
+		{
+			if(response.data == "You have to choose at least one seat.")
+			{
+				alert("You have to choose at least one seat.");
+				
+			}else if(response.data == "Reservation has been successfuly made.")
+			{
+				alert("Reservation has been successfuly made.");
+				//$route.reload();
+				
+			}else if(response.data == "Someone has already reserved those seats")
+			{
+				alert("Someone has already reserved those seats.");
+				
+			}else if("You have selected an inadequate number of seats or some of the seats got reserved in the mean time")
+			{
+				alert("You have selected an inadequate number of seats or some of the seats got reserved in the mean time.");
+			}
+		});
+	}
+	
+	
+	
+	
+	
 	$scope.showChanged = function()
 	{
 		$scope.reservationMatrix = $scope.matrix;
@@ -850,6 +886,35 @@ isaApp.controller('HomePageController', ['$rootScope','$scope','$routeParams','$
 //			$scope.friends.splice($scope.friends.indexOf(friend), 1);
 			reservation.Action = 'notSent';
 		});
+	}
+	
+	$scope.getFastReservation= function(){
+		isaService.getFastReservation($routeParams.id).then(function(response)
+				{
+					
+					console.log(response.data);
+					$scope.fastreservations = response.data.sort();
+				}, function myError(response) {
+					
+			    });
+	}
+	
+
+	$scope.toggle = function (){
+		$scope.state=!$scope.state;
+		isaService.getProjections($routeParams.id).then(function(response)
+				{
+					$scope.allProjections = response.data.sort();
+				});
+			
+	}
+	
+	$scope.acceptFast = function(id){
+		console.log(id);
+		isaService.confirmFastReservation(id).then(function(response)
+				{
+					alert("Reserv ticket");
+				});
 	}
 
 }]);

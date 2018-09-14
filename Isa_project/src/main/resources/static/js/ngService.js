@@ -21,8 +21,8 @@ isaApp.config(function($routeProvider) {
     	templateUrl : "Cinemas.html"
     		
     })
-    .when("/registerProjection",{
-    	templateUrl: "registerProjection.html"
+    .when("/projections/:id",{
+    	templateUrl: "allProjections.html"
     })
     .when("/theaters",{
     	templateUrl : "Theaters.html"
@@ -40,6 +40,9 @@ isaApp.config(function($routeProvider) {
     }).when("/profil",{
     	templateUrl : "profil.html"
     	
+    }).when("/fastReservation/:id",{
+    	templateUrl : "fastReservation.html"
+ 
     }).when("/changePassword",{
     	templateUrl : "changePassword.html"
     
@@ -370,6 +373,12 @@ isaApp.factory('isaService', function isaService($http){
 		return $http.put("reservation/reserve", reservation, config);
 	}
 	
+	isaService.makeFastReservation = function(reservation,discount)
+	{
+		var config = { params: {discount:discount}};
+		return $http.put("reservation/reserveFast", reservation, config);
+	}
+	
 	isaService.getProjectionsName = function(id)
 	{
 		console.log(id);
@@ -385,10 +394,23 @@ isaApp.factory('isaService', function isaService($http){
 		return $http.get("reservation/getReservations", config);
 	}
 	
+	isaService.getFastReservation = function(id){
+		var config = {
+				params: {id : id}
+		};
+		return $http.get("reservation/getFastReservation", config);
+	}
+	
 	isaService.getWatchedReservations = function()
 	{
 		var config = {};
 		return $http.get("reservation/getWatchedReservations", config);
+	}
+	
+	isaService.confirmFastReservation = function(id)
+	{
+		var config = {};
+		return $http.put("reservation/confirmFastReservation",id, config);
 	}
 	
 	return isaService;

@@ -1,0 +1,19 @@
+<div ng-controller="HomePageController">
+	<button type="button" class="btn btn-primary" ng-click="toggle()">Create new</button>
+	
+	<div  ng-show="state" ng-include src="'registerFastReservation.html'"></div>
+	<br/>
+	<br/>
+	
+	<div ng-repeat="fastreservation in fastreservations">
+		<p>Projection name: {{fastreservation.term.projection.name}}</p>
+		<p>Date: {{fastreservation.term.date}}</p>
+		<p>Price: {{fastreservation.price}}</p>
+		<p>Hall: {{fastreservation.term.hall.name}}</p>
+		<button class="btn btn-primary" ng-click="acceptFast(fastreservation.id)">Reserve</button>
+		<hr/>
+		<br/>
+	</div>
+
+
+</div>

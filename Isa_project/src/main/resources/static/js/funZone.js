@@ -667,7 +667,7 @@ function uploadImage() {
     $.ajax({
         method: 'POST',
         headers: {
-            'Authorization': 'Client-ID c98199048ba3773',
+            'Authorization': 'Client-ID 177690a47fd843f',
             'Accept': 'application/json'
         },
         url: 'https://api.imgur.com/3/image',

@@ -22,11 +22,14 @@
 	</div>
 	
 
-	<div > <button type="button" class="btn btn-primary">New Projection</button>
-		   <button type="button" class="btn btn-primary">Edit</button>
-		   
-		   
+	<div >
+	 	<button type="button" class="btn btn-primary" ng-click=showView(1)>Edit</button>
+	 	<a href="#/projections/{{selected.id}}"> <button class="btn btn-primary">All projections</button></a>
+	 	<a href="#/fastReservation/{{selected.id}}"> <button class="btn btn-primary">Fast reservations</button></a>
+	<!--  	<button type="button" class="btn btn-primary" ng-click=showView(2)>Edit projection</button> -->
 	</div>
+	<div ng-show="show==1" ng-include src="'registerProjection.html'"></div>
+	<!--  <div ng-show="show==2" ng-include src="'editProjection.html'"></div> -->
 
 </div>
 </div>

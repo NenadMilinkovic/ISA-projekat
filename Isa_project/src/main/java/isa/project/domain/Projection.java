@@ -58,16 +58,13 @@ public class Projection {
 	
 	@Temporal(TemporalType.TIME)
 	@DateTimeFormat(pattern="hh:mm")
-	@NotNull
-	@Column(name = "PROJECTION_DURATION", nullable = false)
+	@Column(name = "PROJECTION_DURATION")
 	private Date duration;
 	
 	@Size(max = 200)
 	@Column(name = "PROJECTION_ACTORS")
 	private String actors;
-	
-	@Size(max = 100)
-	@Pattern(regexp = "^[A-Z][a-z_ A-Z]*")
+
 	@Column(name = "PROJECTION_POSTER")
 	private String poster;
 	
@@ -88,6 +85,7 @@ public class Projection {
 		this.id = id;
 	}
 
+	
 	public String getName() {
 		return name;
 	}

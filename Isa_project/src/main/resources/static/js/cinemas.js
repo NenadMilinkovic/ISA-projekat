@@ -59,20 +59,7 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 			}
 		});
 	}
-/*	cinemaTheaterService.showCinema = function(cinema_id) {
-		console.log('radi?');
-		return $http({
-			method : 'POST',
-			url : 'cinemas/?id=' + cinema_id,
-			data : {
-				"name" : cinema.name,
-				"role" : "CINEMA",
-				"adress" : cinema.adress,
-				"description" : cinema.description,
-				"rating" : cinema.rating,
-			}
-		});
-	}*/
+	
 
 	cinemaTheaterService.getLoggedInUser = function() {
 		return $http({
@@ -80,6 +67,8 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 			url : 'user/getLoggedInUser'
 		});
 	}
+	
+	
 
 	
 	return cinemaTheaterService;
@@ -207,23 +196,5 @@ app.controller(
 						else if(password == passwordCheck)
 							$scope.noMatch = false;
 					}
-					}
-
-					
-					cinemaTheaterService.getLoggedInUser().then(function(response) {
-						
-						console.log(response.data);
-						$scope.loginUserRole = 0;
-						if(response.data.userRole == 'ADMIN'){
-							$scope.loginUserRole = 1;
-						}
-						
-					}, function myError(response) {
-						
-				    });
-					
 				}
-				
-
-				
 		]);

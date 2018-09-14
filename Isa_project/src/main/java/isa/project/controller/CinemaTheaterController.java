@@ -66,4 +66,6 @@ public class CinemaTheaterController {
 		CinemaTheater newTheater = cinemaTheaterService.save(theater);
 		return new ResponseEntity<>(newTheater, HttpStatus.OK);
 	}
+	
+	
 }

@@ -70,6 +70,20 @@ public class Reservation {
 	@Enumerated(EnumType.STRING)
 	private ReservationStatus reservationStatus;
 	
+	@Column(name = "TYPE")
+	@Enumerated(EnumType.STRING)
+	private ReservationType reservationType;
+	
+	
+	
+	public ReservationType getReservationType() {
+		return reservationType;
+	}
+
+	public void setReservationType(ReservationType reservationType) {
+		this.reservationType = reservationType;
+	}
+
 	public Long getId() {
 		return id;
 	}

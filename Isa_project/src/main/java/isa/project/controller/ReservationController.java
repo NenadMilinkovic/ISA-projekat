@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.domain.CinemaTheater;
@@ -29,6 +30,7 @@ import isa.project.domain.Hall;
 import isa.project.domain.Projection;
 import isa.project.domain.Reservation;
 import isa.project.domain.ReservationStatus;
+import isa.project.domain.ReservationType;
 import isa.project.domain.SeatMap;
 import isa.project.domain.SeatType;
 import isa.project.domain.Term;
@@ -81,7 +83,7 @@ public class ReservationController {
 	public ResponseEntity<List<Projection>> getProjectionsForCinema(@PathVariable Long cinemaId) 
 	{
 		
-		List<Projection> projections = new ArrayList<>();/*projectionService.findAll(cinemaTheater);*/
+		List<Projection> projections = new ArrayList<>();
 		
 		return new ResponseEntity<List<Projection>>(projections, HttpStatus.OK);
 	}
@@ -154,6 +156,7 @@ public class ReservationController {
 		res.setUser((User)httpSession.getAttribute("user"));
 		res.setRow(rows.get(0));
 		res.setColumn(cols.get(0));
+		res.setReservationType(ReservationType.REGULAR);
 		
 		SeatMap seatTypes = (SeatMap) SeatMap.convertToSeatMap(term.getHall().getSeats());
 		SeatType type = seatTypes.getSeatTypes()[rows.get(0)][cols.get(0)];
@@ -221,6 +224,7 @@ public class ReservationController {
 				res.setTerm(term);
 				currFree[rows.get(i)][cols.get(i)]=false;
 				res.setTimeOfReservation(new Date());
+				res.setReservationType(ReservationType.REGULAR);
 				reservations.add(res);
 			}
 		}
@@ -234,13 +238,13 @@ public class ReservationController {
 		{
 			reservationService.createNewReservation(reservations.get(i));
 			
-			if(reservations.get(i).getReservationStatus().equals(ReservationStatus.WAITING)) 
+		/*	if(reservations.get(i).getReservationStatus().equals(ReservationStatus.WAITING)) 
 			{
 				SendEmail.confirmReservation(reservations.get(i).getUser().getEmail(), res, (User)httpSession.getAttribute("user"));
-			}
+			}*/
 		}
 		
-		SendEmail.reservationDetails(((User)httpSession.getAttribute("user")).getEmail(), res, friendsInvited);
+	//	SendEmail.reservationDetails(((User)httpSession.getAttribute("user")).getEmail(), res, friendsInvited);
 		SeatMap sMap = new SeatMap();
 		sMap.setFreeSeats(currFree);
 		termService.update(term.getId(), SeatMap.convertToBytes(sMap));
@@ -291,6 +295,18 @@ public class ReservationController {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	@RequestMapping(value = "/confirmFastReservation", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> confirmFastReservation(@RequestBody String id)
+	{	
+		User loggedUser = (User) httpSession.getAttribute("user");
+		
+		Reservation res = reservationService.findOne(Long.parseLong(id));
+		res.setReservationType(ReservationType.REGULAR);
+		res.setUser(loggedUser);
+		reservationService.save(res);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 	public boolean checkSeats(ArrayList<Integer> rows, ArrayList<Integer> cols, Term term) throws ClassNotFoundException, IOException {
 		
@@ -312,12 +328,33 @@ public class ReservationController {
 		User loggedUser = (User) httpSession.getAttribute("user");
 		
 		List<Reservation> reservations = reservationService.findReservationByStatus(loggedUser, ReservationStatus.CONFIRMED);
-		
-		for(Reservation r : reservations)
-			System.out.println(r);
-		
-		return new ResponseEntity<List<Reservation>>(reservations, HttpStatus.OK);
+		ArrayList<Reservation> ret = new ArrayList<Reservation>();
+		for(Reservation r : reservations){
+			if(r.getReservationType().equals(ReservationType.REGULAR)){
+				ret.add(r);
+			}
+		}
+		return new ResponseEntity<List<Reservation>>(ret, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/getFastReservation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Reservation>> getFastReservations(@RequestParam(value = "id") Long id) 
+	{
+		
+		//User loggedUser = (User) httpSession.getAttribute("user");
+		
+		List<Reservation> reservations = reservationService.findAll();
+		ArrayList<Reservation> ret = new ArrayList<Reservation>();
+		for(Reservation r : reservations){
+			if(r.getReservationType().equals(ReservationType.FAST)){
+				 if(r.getTerm().getProjection().getCinemaTheater().getId()== id){
+					 	ret.add(r);
+				 }
+			}
+		}
+		return new ResponseEntity<List<Reservation>>(ret, HttpStatus.OK);
+	}
+
 
 	@RequestMapping(value="/getWatchedReservations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Reservation>> getWatchedReservations() 
@@ -330,6 +367,105 @@ public class ReservationController {
 			System.out.println(r);
 		
 		return new ResponseEntity<List<Reservation>>(reservations, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reserveFast", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> makeFastReservation( @RequestBody String reservation,@RequestParam(value = "discount") String discount) throws ClassNotFoundException, IOException, ParseException
+	{
+		
+		ArrayList<Integer> rows = new ArrayList<Integer>();
+		ArrayList<Integer> cols = new ArrayList<Integer>();
+		JSONParser parser = new JSONParser(); 
+		JSONObject json = (JSONObject) parser.parse(reservation);
+		
+		Projection projection = projectionService.findOne(Long.valueOf((String) json.get("projection")));
+		Hall hall = hallService.findOne(Long.valueOf((String) json.get("hall")));
+		Term term = termService.findTerm(projection, (String)json.get("date"), (String)json.get("time"), hall);
+		
+		boolean[][] currFree = SeatMap.convertToSeatMap(term.getSeats()).getFreeSeats();
+		term.setSeatMap(SeatMap.convertToSeatMap(term.getSeats()));
+		JSONArray jArray = (JSONArray) json.get("seats"); 
+		
+		if(jArray != null)
+		{	for (int i = 0; i < jArray.size(); i++)
+			{
+				JSONArray jArray2 = (JSONArray) jArray.get(i);
+				for(int j = 0; j < jArray2.size(); j++) 
+				{
+					if((boolean)jArray2.get(j)^(boolean)term.getSeatMap().getFreeSeats()[i][j]) {
+						rows.add(i);
+						cols.add(j);
+					}
+				}
+			} 
+		}else
+			return new ResponseEntity<>("\"You have to choose at least one seat.\"", HttpStatus.OK);
+		
+		if(rows.size() < 0) 
+		{
+			return new ResponseEntity<String>("\"Someone has already reserved those seats\"", HttpStatus.OK);
+		}
+		if(checkSeats(rows, cols, term) == false) 
+		{
+			return new ResponseEntity<String>("\"Someone has already reserved those seats\"", HttpStatus.OK);
+		}
+		
+		if(rows.size() > 5) 
+		{
+			return new ResponseEntity<String>("\"You can choose a maximum of 5 seats.\"", HttpStatus.OK);
+		}
+		
+		/*if(reservationService.findReservationByUser((User)httpSession.getAttribute("user"),term) != null) 
+		{
+			return new ResponseEntity<String>("\"You already have a reservation for this term.\"", HttpStatus.OK);
+		}
+		*/
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		Reservation res = new Reservation();
+		res.setTerm(term);
+		res.setReservationStatus(ReservationStatus.CONFIRMED);
+		res.setUser((User)httpSession.getAttribute("user"));
+		res.setRow(rows.get(0));
+		res.setColumn(cols.get(0));
+		res.setReservationType(ReservationType.FAST);
+		
+		SeatMap seatTypes = (SeatMap) SeatMap.convertToSeatMap(term.getHall().getSeats());
+		SeatType type = seatTypes.getSeatTypes()[rows.get(0)][cols.get(0)];
+		int price;
+		
+		if(type == SeatType.REGULAR) 
+		{
+			price = term.getPriceRegular();
+		}
+		else if (type == SeatType.BALCONY) 
+		{
+			price = term.getPriceBalcony();
+		}
+		else 
+		{
+			price = term.getPriceVip();
+		}
+		
+		res.setPrice(price*(100-Integer.parseInt(discount))/100);
+		currFree[rows.get(0)][cols.get(0)] = false;
+		res.setTimeOfReservation(new Date());
+		reservations.add(res);
+
+		if(checkSeats(rows, cols, term) == false) 
+		{
+			return new ResponseEntity<String>("\"Someone has already reserved those seats\"", HttpStatus.OK);
+		}
+		
+		for(int i = 0; i < reservations.size(); i++) 
+		{
+			reservationService.createNewReservation(reservations.get(i));
+			
+		}
+		SeatMap sMap = new SeatMap();
+		sMap.setFreeSeats(currFree);
+		termService.update(term.getId(), SeatMap.convertToBytes(sMap));
+		
+		return new ResponseEntity<>("\"Reservation has been successfuly made.\"", HttpStatus.CREATED);
 	}
 
 	

@@ -19,7 +19,7 @@ public interface ReservationService {
 	Reservation delete(Long id);
 	
 	void update(Long id, ReservationStatus reservationStatus);
-
+	Reservation save (Reservation reservation);
 	Reservation findReservationByUser(User user, Term term);
 	
 	List<Reservation> findReservationsByUser(User user);
