@@ -23,5 +23,6 @@ public interface ProjectionService {
 	
 	public List<Projection> findById(CinemaTheater ct);
 
+
 	
 }

@@ -1,0 +1,63 @@
+<h1 class="page-header">Add term</h1>
+<form class="form-horizontal" name="myForm" novalidate
+	style="width: 50%">
+	<div class="form-group">
+		<label class="control-label col-sm-3" >Regular Price:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" placeholder="Enter price" name="regularPrice"
+				required ng-Model="$parent.term.priceRegular" id="regularPrice" pattern = "^[0-9]*" ng-maxlength="5">
+		</div>
+	</div>
+	<div role="alert" style="color:red">
+      <span class="error" ng-show="myForm.regularPrice.$error.maxlength">
+        Too long!</span>
+    </div>
+	<div class="form-group">
+		<label class="control-label col-sm-3" for="balconPrice">Price balcony:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="priceBalcony" name="price Balcony"
+				placeholder="Enter priceBalcony" required
+				ng-Model="$parent.term.priceBalcony" pattern = "^[0-9]*" ng-maxlength="5">
+		</div>
+	</div>
+	 <div role="alert" style="color:red">
+       <span class="error" ng-show="myForm.priceBalcony.$error.maxlength">
+        Too long!</span>
+    </div>
+    <div class="form-group">
+		<label class="control-label col-sm-3" for="priceVip">Price vip:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="priceVip" name="priceVip"
+				placeholder="Enter priceVip" required
+				ng-Model="$parent.term.priceVip" pattern = "^[0-9]*" ng-maxlength="5">
+		</div>
+	</div>
+	 <div role="alert" style="color:red">
+       <span class="error" ng-show="myForm.priceVip.$error.maxlength">
+        Too long!</span>
+    </div>
+    <div class="form-group" ng-init="getHalls()">
+				<label for="reserve-form"><p>Hall:</p></label>
+				<select class="form-control" name="hall" id="halls" ng-model="$parent.term.hall"style="padding: 1px 3px;" required>
+					<option value="" selected hidden>-- Select an option --</option>
+					<option ng-repeat="hall in halls" value={{hall.id}}>{{hall.name}}</option>
+					<div ng-messages="registrationForm.name.$error" ng-messages-include="messages.html"></div>
+				</select>
+			</div>
+	<div class="form-group">
+	<label class="control-label col-sm-3" for="time">Date:</label>
+		  <input type="text" name="termDate" id="termDate" ng-Model="$parent.term.termDate">
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-3" for="termTime">Time:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="termTime" name="termTime"
+				placeholder="Enter time" required
+				ng-Model="$parent.term.termTime">
+		</div>
+	</div>
+	<br/>
+	<div class="form-group" >
+	<button class="btn btn-default" ng-click=registerTerm()>ok</button>
+   	</div>
+</form>

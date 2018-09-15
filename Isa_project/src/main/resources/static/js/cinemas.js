@@ -43,6 +43,22 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 		});
 	}
 	
+	cinemaTheaterService.editCinema = function(cinema){
+		return $http({
+			method : 'POST',
+			url : 'isa/cinemaTheater/editCinema',
+			data : {
+				"id": cinema.id,
+				"name" : cinema.name,
+				"type" : cinema.type,
+				"description" : cinema.description,
+				"adress" : cinema.adress,
+				"city" : cinema.city,
+				"rating" : cinema.rating
+			}
+		});
+	}
+	
 	cinemaTheaterService.registerCinemaTheaterAdmin = function(cinema_id, user) {
 		console.log('usaoooo');
 		return $http({
@@ -102,7 +118,6 @@ app.controller(
 						$rootScope.cinema = $scope.selected;
 						$scope.selectedCinemaAdmin = null;
 						$scope.show = null;
-						$scope.cinema = null;
 						$scope.newCinemaAdmin = null;
 						address = $scope.selected.adress;
 						console.log($scope.selected.adress);
@@ -166,6 +181,18 @@ app.controller(
 								}, function myError(response) {
 									
 							    });
+					}
+					
+					$scope.changeCinema = function(cinema){
+						cinemaTheaterService.editCinema(cinema).then(function(response){
+							if (response.data) {
+								alert('Successfuly edit cinema')
+								$scope.show = null;
+								$route.reload();
+							}
+						}, function myError(response) {
+							
+					    });
 					}
 					
 					$scope.registerCinemaTheaterAdmin = function() {

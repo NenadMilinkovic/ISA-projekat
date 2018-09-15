@@ -40,7 +40,9 @@ public class TermServiceImpl implements TermService{
 	@Override
 	public Term delete(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+			termRepository.delete(id);
+		
+		return null; 
 	}
 
 	@Override

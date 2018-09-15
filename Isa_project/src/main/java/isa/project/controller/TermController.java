@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +54,27 @@ public class TermController {
 		return new ResponseEntity<>(terms, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/registerTerm/{projectionId}/{hallId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity addTerm(@RequestBody Term term, @PathVariable  Long projectionId, @PathVariable Long hallId )
+	{	
+		try{
+			System.out.println("Pokusaj breee");
+			term.setProjection(projectionService.findOne(projectionId));
+			term.setHall(hallService.findOne(hallId));
+			termService.createNewTerm(term);
+		}catch(Exception e){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/deleteTerm", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity deleteTerm(@RequestParam Long id) throws ClassNotFoundException, IOException
+	{	
+		termService.delete(id);
+		
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
 	@RequestMapping(value = "/getDates", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<String>> getDates(@RequestParam Long id) throws ParseException
 	{

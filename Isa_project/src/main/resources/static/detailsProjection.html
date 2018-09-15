@@ -3,7 +3,7 @@
 	<br/>
 	
 	
-	<div >
+	<div>
 		<h2 align="center">
 		 	<label>{{projection.name}}</label>
 		</h2>
@@ -20,16 +20,19 @@
 		  	<label>Poster:</label>
 		  	<img src="{{projection.poster}}" height="100" width="100" />
 		  	<br/>
+		  	<label>Terms:</label>
+		  	<ul ng-repeat="term in terms">
+		  		<li> Date: {{term.termDate}}, Time: {{term.termTime}} Price: {{term.priceRegular}}
+		  	</ul>
+		  	<br/>
 		</h4>
 	</div>
 	
 
 	<div >
 	 	<button type="button" class="btn btn-primary" ng-click=showView(4)>Edit</button>
-	 	<button type="button" class="btn btn-primary" ng-click=showView(2)>Add Term</button>
 	 	<button type="button" class="btn btn-primary" ng-click=deleteProjection()>Delete</button>
 	</div>
 
 
-</div>
 </div>

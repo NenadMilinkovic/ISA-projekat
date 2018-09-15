@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import isa.project.domain.CinemaTheater;
 import isa.project.domain.Hall;
 import isa.project.domain.Projection;
+import isa.project.domain.Term;
 import isa.project.service.CinemaTheaterService;
 import isa.project.service.HallService;
 import isa.project.service.ProjectionService;
+import isa.project.service.TermService;
 
 
 @RestController
@@ -31,6 +33,9 @@ public class ProjectionController {
 	
 	@Autowired
 	CinemaTheaterService cinemaTheaterService;
+	
+	@Autowired
+	TermService termService;
 	
 	@Autowired
 	HallService hallService;
@@ -67,6 +72,25 @@ public class ProjectionController {
 		
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/getTerm/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Term>> getTerm(@PathVariable Long id){
+		
+		
+		Projection projection = projectionService.findOne(id);
+		List<Term> terms = termService.findAll(projection);
+		List<Term> retVal = new ArrayList<>();
+		
+		for(Term term : terms)
+		{
+			
+			if(term.getProjection().getId().equals(id)){
+				retVal.add(term);
+			}
+		}
+		
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/getNames", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Projection> getProjectionsName(@RequestParam Long id)
@@ -90,9 +114,25 @@ public class ProjectionController {
 	@RequestMapping(value ="/deleteProjection/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity deleteProjection(@PathVariable  Long id){
 		
-		projectionService.delete(id);;
+		Projection projection = projectionService.findOne(id);
+		List<Term> terms = termService.findAll(projection);
+		for(Term term : terms){
+			if(term.getProjection().getId().equals(id)){
+				termService.delete(term.getId());
+			}
+		}
+		projectionService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@RequestMapping(value ="/changeProjection/{cinema_id}", method = RequestMethod.PUT)
+	public ResponseEntity changeProjection(@PathVariable  Long cinema_id,@RequestBody Projection projection){
+		
+		CinemaTheater ct = cinemaTheaterService.findOne(cinema_id);
+		projection.setCinemaTheater(ct);
+		projectionService.save(projection);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 }

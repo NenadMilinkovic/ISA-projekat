@@ -45,6 +45,14 @@ public class CinemaTheaterController {
 		return new ResponseEntity<>(newCinema, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/editCinema", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<CinemaTheater> editCinema(@RequestBody CinemaTheater cinema) {
+
+		CinemaTheater newCinema = cinemaTheaterService.save(cinema);
+		return new ResponseEntity<>(newCinema, HttpStatus.OK);
+	}
+	
+	
 	@RequestMapping(value = "/searchCinemas", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<CinemaTheater>> searchCinemas(@RequestParam String name, @RequestParam String adress/*, @RequestParam String city*/)
 	{

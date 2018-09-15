@@ -1,0 +1,105 @@
+<div ng-controller= "ProjectionController">
+<h1 class="page-header">Edit projection</h1>
+<form class="form-horizontal" name="myForm" novalidate
+	style="width: 50%">
+	<div class="form-group">
+		<label class="control-label col-sm-3" for="rn">Name:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" placeholder="Enter name" name="name"
+				required ng-Model="$parent.$parent.projection.name" id="changeName" pattern = "^[A-Z][a-z_ A-Z]*" ng-minlength="3" ng-maxlength="30">
+		</div>
+	</div>
+	<div role="alert" style="color:red">
+      <span class="error" ng-show="myForm.name.$error.minlength">
+        Too short!</span>
+      <span class="error" ng-show="myForm.name.$error.maxlength">
+        Too long!</span>
+    </div>
+	<div class="form-group">
+		<label class="control-label col-sm-3" for="des">Description:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="changeDescription" name="des"
+				placeholder="Enter description" required
+				ng-Model="$parent.projection.description" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="100">
+		</div>
+	</div>
+	 <div role="alert" style="color:red">
+       <span class="error" ng-show="myForm.des.$error.maxlength">
+        Too long!</span>
+    </div>
+     <div class="form-group">
+		<label class="control-label col-sm-3" for="actors">Actors:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="changeActors" name="actors"
+				placeholder="Enter actors,with a comma between" required
+				ng-Model="$parent.projection.actors" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="70">
+		</div>
+	</div>
+	 <div role="alert" style="color:red">
+       <span class="error" ng-show="myForm.actors.$error.maxlength">
+        Too long!</span>
+    </div>
+     <div class="form-group">
+		<label class="control-label col-sm-3" for="genre">Genre:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="changeGenre" name="genre"
+				placeholder="Enter genre" required
+				ng-Model="$parent.projection.genre" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="30">
+		</div>
+	</div>
+	 <div role="alert" style="color:red">
+       <span class="error" ng-show="myForm.genre.$error.maxlength">
+        Too long!</span>
+    </div>
+     <div class="form-group">
+		<label class="control-label col-sm-3" for="director">Director:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="changeDirector" name="director"
+				placeholder="Enter director" required
+				ng-Model="$parent.projection.director" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="30">
+		</div>
+	</div>
+	 <div role="alert" style="color:red">
+       <span class="error" ng-show="myForm.director.$error.maxlength">
+        Too long!</span>
+    </div>
+    
+     <div class="form-group">
+		<label class="control-label col-sm-3" >Duration:</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="changeDuration" name="duration"
+				placeholder="Enter duration" 
+				ng-Model="$parent.projection.duration" >
+		</div>
+  	</div>
+<!--	 <div role="alert" style="color:red">
+       <span class="error" ng-show="myForm.duration.$error.maxlength">
+        Too long!</span>
+    </div> -->
+    <div class="form-group">
+		<label class="control-label col-sm-3" for="poster">Poster:</label>
+		<div class="col-sm-9">
+			<input type="file" class="form-control" id="changePoster" name="poster" accept="image/*"
+			 ng-Model="$parent.project.poster" onchange="uploadImage3()">
+			<img id="img" alt="slika" ng-show="$parent.newprojection.poster.src" ng-src="{{$parent.projection.poster.src}}" >
+		</div>
+	</div>
+    <p>TERMS</p>
+    <div ng-repeat="term in terms">
+    	 <p>Date: {{term.termDate}} Time:{{term.termTime}} Price: {{term.priceRegular}}</p>
+    	 <button class="btn btn-success" ng-click="deleteTerm(term.id)">Delete term</button>
+    </div>
+    <div>
+    	<button class="btn btn-primary" ng-click="showView(2)"></button>
+    </div>
+    <div ng-show="show==2" ng-include src="'registerTerm.html'"></div>
+	<hr/>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-success"
+				ng-Click="$parent.changeProjection(projection)"
+				data-toggle="tooltip" data-placement="top" tooltip>Submit</button>
+		</div>
+	</div>
+</form>
+</div>

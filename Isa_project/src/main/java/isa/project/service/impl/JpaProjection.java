@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isa.project.domain.CinemaTheater;
 import isa.project.domain.Projection;
+import isa.project.domain.ReservationStatus;
 import isa.project.repositories.ProjectionRepository;
 import isa.project.service.ProjectionService;
 
@@ -41,6 +42,7 @@ public class JpaProjection implements ProjectionService {
 		// TODO Auto-generated method stub
 		return projectionRepository.save(projections);
 	}
+
 
 	@Override
 	public Projection delete(Long id) {
