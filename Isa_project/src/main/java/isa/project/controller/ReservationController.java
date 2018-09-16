@@ -42,7 +42,6 @@ import isa.project.service.ProjectionService;
 import isa.project.service.ReservationService;
 import isa.project.service.TermService;
 import isa.project.service.UserService;
-import isa.project.utils.SendEmail;
 
 @RestController
 @RequestMapping(value="/reservation")
@@ -86,6 +85,25 @@ public class ReservationController {
 		List<Projection> projections = new ArrayList<>();
 		
 		return new ResponseEntity<List<Projection>>(projections, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getCinemaReservations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Reservation>> getCinemaReservation(@RequestParam(value = "id") Long id){
+		List<Reservation> retVal = new ArrayList<>();
+		
+		//List<Hall> halls = hallService.findAll(cinemaTheaterService.findOne(id));
+		//List<Term> terms = find
+		
+		List<Reservation> allreservation = reservationService.findAll();
+		for(Reservation reservation : allreservation){
+			if(reservation.getTerm().getHall().getCinemaTheater().getId().equals(id)){
+				if(reservation.getReservationStatus().equals(ReservationStatus.WATCHED)){
+					retVal.add(reservation);
+				}
+			}
+		}
+		
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/getProjection/{projectionId}/getTerms", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

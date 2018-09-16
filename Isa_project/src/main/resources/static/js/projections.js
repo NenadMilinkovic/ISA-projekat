@@ -60,8 +60,7 @@ app.factory('ProjectionService', function ProjectionService($http) {
 				"description" : projection.description,
 				"genre" : projection.genre,
 				"director" : projection.director,
-				"duration" : projection.duration,
-				"poster" : projection.poster
+				"duration" : projection.duration
 			}
 		});
 	}
@@ -74,12 +73,12 @@ app.factory('ProjectionService', function ProjectionService($http) {
 		});
 	}
 	
-	ProjectionService.registerTerm = function(term,projection_id){
+	ProjectionService.registerTerm = function(term,projection_id,date){
 		return $http({
 			method: 'POST',
 			url: '/term/registerTerm/'+projection_id+"/"+term.hall,
 			data: {
-				"termDate" : term.termDate,
+				"termDate" : date,
 				"termTime" : term.termTime,
 				"priceRegular": term.priceRegular,
 				"priceBalcony": term.priceBalcony,
@@ -160,6 +159,7 @@ app.controller(
 					
 					}
 					
+					
 					$scope.getHalls = function(){
 					ProjectionService.getHall($routeParam.current.params.id).then(function(response)
 							{
@@ -178,7 +178,7 @@ app.controller(
 							alert("Delete projection");
 							location.reload();
 						}, function myError(response) {
-							
+							alert("Cant delete projection");
 					    });
 						
 					}
@@ -203,10 +203,10 @@ app.controller(
 					$scope.registerTerm = function(){
 						console.log("napravi log");
 						var term = $scope.term;
-						console.log(term);
+						var date =   $("#termDate").val();
+						console.log(date);
 						var projection_id = $scope.projection.id;
-						console.log(projection_id);
-						ProjectionService.registerTerm(term,projection_id).then(function(response){
+						ProjectionService.registerTerm(term,projection_id,date).then(function(response){
 							alert("add term");
 							location.reload();
 						}, function myError(response) {
@@ -245,31 +245,3 @@ function uploadImage2() {
     });
 }
 
-function uploadImage3() {
-	console.log( $('#poster'));
-    let image = $('#poster').prop('files')[1];
-	
-    var formData = new FormData();
-    formData.append("image", image);
-    $.ajax({
-        method: 'POST',
-        headers: {
-            'Authorization': 'Client-ID 177690a47fd843f',
-            'Accept': 'application/json'
-        },
-        url: 'https://api.imgur.com/3/image',
-        data: formData,
-        processData: false,
-        contentType: false,
-        mimeType: 'multipart/form-data',
-        success: function(data) {
-            image_url = JSON.parse(data).data.link;
-            photo = image_url;
-            alert("Uspesno aploadovana.");
-        },
-        error: function(data) {
-
-            alert("Neuspesno.");
-        }
-    });
-}

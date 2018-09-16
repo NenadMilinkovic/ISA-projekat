@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import isa.project.domain.Hall;
 import isa.project.domain.Projection;
 import isa.project.domain.SeatMap;
+import isa.project.domain.SeatType;
 import isa.project.domain.Term;
 import isa.project.service.HallService;
 import isa.project.service.ProjectionService;
@@ -58,9 +59,42 @@ public class TermController {
 	public ResponseEntity addTerm(@RequestBody Term term, @PathVariable  Long projectionId, @PathVariable Long hallId )
 	{	
 		try{
+			SeatMap seatMap = new SeatMap(5, 5);
+			boolean[][] seats = new boolean[5][5];
+			SeatType[][] seatTypes = new SeatType[5][5];
+			
+			for(int i = 0 ; i < 5; i++) 
+			{
+				for(int j = 0; j < 5; j++) 
+				{
+					seats[i][j]=true;
+					if(i>2 && j > 3) {
+						seatTypes[i][j]=SeatType.BALCONY;
+					}
+					else if(i < 2 ) {
+						seatTypes[i][j]=SeatType.VIP;
+					}else{
+						seatTypes[i][j]=SeatType.REGULAR;
+					}
+				}
+			}
+			
+			seatMap.setFreeSeats(seats);
+			seatMap.setSeatTypes(seatTypes);
+			byte[] byteMap = null;
+			
+			try {
+				byteMap = SeatMap.convertToBytes(seatMap);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 			System.out.println("Pokusaj breee");
 			term.setProjection(projectionService.findOne(projectionId));
 			term.setHall(hallService.findOne(hallId));
+			term.setSeats(byteMap);
 			termService.createNewTerm(term);
 		}catch(Exception e){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

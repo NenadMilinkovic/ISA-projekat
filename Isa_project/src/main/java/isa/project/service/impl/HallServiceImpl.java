@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import isa.project.domain.CinemaTheater;
 import isa.project.domain.Hall;
 import isa.project.domain.User;
 import isa.project.repositories.HallRepository;
@@ -53,6 +54,12 @@ public class HallServiceImpl implements HallService{
 	public List<Hall> findAll() {
 		// TODO Auto-generated method stub
 		return hallRepository.findAll();
+	}
+
+	@Override
+	public List<Hall> findAll(CinemaTheater ct) {
+		// TODO Auto-generated method stub
+		return hallRepository.findAll(ct);
 	}
 }
 

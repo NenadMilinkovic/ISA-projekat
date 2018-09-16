@@ -166,7 +166,7 @@ isaApp.controller('RegistrationController', ['$rootScope','$scope','$routeParams
 			{
 				//alert("Welcome " + $scope.loggedInUser.name);
 //				console.log($scope.loggedInUser);
-				if($scope.loggedInUser.firstLogIn == false && $scope.loggedInUser.userRole == 'ADMIN_OF_FAN_ZONE'){
+				if($scope.loggedInUser.firstLogIn == false && ($scope.loggedInUser.userRole == 'ADMIN_OF_FAN_ZONE' || $scope.loggedInUser.userRole =="ADMIN_OF_CINEMA_THEATRE") ){
 					console.log($scope.loggedInUser.firstLogIn);
 					console.log($scope.loggedInUser.userRole);
 					$location.path("/changePassword");

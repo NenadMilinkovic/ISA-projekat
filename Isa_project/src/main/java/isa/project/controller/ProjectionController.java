@@ -21,6 +21,7 @@ import isa.project.domain.Term;
 import isa.project.service.CinemaTheaterService;
 import isa.project.service.HallService;
 import isa.project.service.ProjectionService;
+import isa.project.service.ReservationService;
 import isa.project.service.TermService;
 
 
@@ -39,6 +40,10 @@ public class ProjectionController {
 	
 	@Autowired
 	HallService hallService;
+	
+	@Autowired
+	ReservationService reservationService;
+	
 	
 	@RequestMapping(value = "/getProjections", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Projection>> getProjections(@RequestParam(value = "id") Long id){
@@ -118,10 +123,19 @@ public class ProjectionController {
 		List<Term> terms = termService.findAll(projection);
 		for(Term term : terms){
 			if(term.getProjection().getId().equals(id)){
-				termService.delete(term.getId());
+				try{	
+					termService.delete(term.getId());
+				}catch(Exception e){
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
 			}
 		}
-		projectionService.delete(id);
+		try{	
+			projectionService.delete(id);
+		}catch(Exception e){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

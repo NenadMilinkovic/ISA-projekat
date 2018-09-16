@@ -3,7 +3,7 @@
 <form class="form-horizontal" name="myForm" novalidate
 	style="width: 50%">
 	<div class="form-group">
-		<label class="control-label col-sm-3" for="rn">Name:</label>
+		<label class="control-label col-sm-3">Name:</label>
 		<div class="col-sm-9">
 			<input type="text" class="form-control" placeholder="Enter name" name="name"
 				required ng-Model="$parent.$parent.projection.name" id="changeName" pattern = "^[A-Z][a-z_ A-Z]*" ng-minlength="3" ng-maxlength="30">
@@ -42,7 +42,7 @@
      <div class="form-group">
 		<label class="control-label col-sm-3" for="genre">Genre:</label>
 		<div class="col-sm-9">
-			<input type="text" class="form-control" id="changeGenre" name="genre"
+			<input type="text" class="form-control" id="changeGenre" name="changeGenre"
 				placeholder="Enter genre" required
 				ng-Model="$parent.projection.genre" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="30">
 		</div>
@@ -54,7 +54,7 @@
      <div class="form-group">
 		<label class="control-label col-sm-3" for="director">Director:</label>
 		<div class="col-sm-9">
-			<input type="text" class="form-control" id="changeDirector" name="director"
+			<input type="text" class="form-control" id="changeDirector" name="changeDirector"
 				placeholder="Enter director" required
 				ng-Model="$parent.projection.director" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="30">
 		</div>
@@ -72,21 +72,17 @@
 				ng-Model="$parent.projection.duration" >
 		</div>
   	</div>
-<!--	 <div role="alert" style="color:red">
-       <span class="error" ng-show="myForm.duration.$error.maxlength">
-        Too long!</span>
-    </div> -->
     <div class="form-group">
 		<label class="control-label col-sm-3" for="poster">Poster:</label>
 		<div class="col-sm-9">
 			<input type="file" class="form-control" id="changePoster" name="poster" accept="image/*"
-			 ng-Model="$parent.project.poster" onchange="uploadImage3()">
+			 ng-Model="$parent.project.poster" onchange="uploadImage2()">
 			<img id="img" alt="slika" ng-show="$parent.newprojection.poster.src" ng-src="{{$parent.projection.poster.src}}" >
 		</div>
 	</div>
     <p>TERMS</p>
     <div ng-repeat="term in terms">
-    	 <p>Date: {{term.termDate}} Time:{{term.termTime}} Price: {{term.priceRegular}}</p>
+    	 <p>Date: {{term.termDate}} &nbsp; Time:{{term.termTime}} &nbsp; Price: {{term.priceRegular}}</p>
     	 <button class="btn btn-success" ng-click="deleteTerm(term.id)">Delete term</button>
     </div>
     <div>

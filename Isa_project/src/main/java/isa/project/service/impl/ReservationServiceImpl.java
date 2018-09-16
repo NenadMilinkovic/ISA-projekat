@@ -86,7 +86,7 @@ public class ReservationServiceImpl implements ReservationService {
 		public Reservation save(Reservation reservation) {
 			// TODO Auto-generated method stub
 			return reservationRepository.save(reservation);
-		}		
+		}
 
 	}
 

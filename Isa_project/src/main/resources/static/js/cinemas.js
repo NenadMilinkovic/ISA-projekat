@@ -1,3 +1,4 @@
+var myReservation;
 
 var app = angular.module('isaApp');
 
@@ -83,6 +84,21 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 			url : 'user/getLoggedInUser'
 		});
 	}
+	cinemaTheaterService.getProjections = function(id) {
+		return $http({
+			method : 'GET',
+			url : '/projection/getProjections',
+			params: {id : id}
+		});
+	}
+	cinemaTheaterService.getCinemaReservations = function(id) {
+		return $http({
+			method : 'GET',
+			url : '/reservation/getCinemaReservations',
+			params: {id : id}
+		});
+	}
+	
 	
 	
 
@@ -116,6 +132,15 @@ app.controller(
 					$scope.setSelected = function(selected) {
 						$scope.selected = selected;
 						$rootScope.cinema = $scope.selected;
+						cinemaTheaterService.getCinemaReservations($scope.selected.id).then(function(response)
+								{
+							
+								console.log(response.data);
+								myReservation = response.data;
+								}, function myError(response) {
+							
+					    });
+						
 						$scope.selectedCinemaAdmin = null;
 						$scope.show = null;
 						$scope.newCinemaAdmin = null;
@@ -223,5 +248,49 @@ app.controller(
 						else if(password == passwordCheck)
 							$scope.noMatch = false;
 					}
+					
+					
+					$scope.seeStatic = function(){
+						var cinemarating=0;
+						var cinemaearned=0;
+						var visitors = 0;
+						var h="";
+						var start = document.getElementById("start").value;
+						var end = document.getElementById("end").value;
+						for(var i =0; i < myReservation.length; i++){
+							console.log(myReservation[i].term.termDate);
+							if(start <= myReservation[i].term.termDate && end >= myReservation[i].term.termDate){
+							
+								cinemarating = cinemarating+myReservation[i].visitRating;
+								cinemaearned= cinemaearned+myReservation[i].price;
+								visitors = visitors+1;
+								
+								var name = myReservation[i].term.projection.name;
+								var projectionrating = myReservation[i].projectionRating;
+								console.log(name);
+								h+="<h4>"+name+" &nbsp "+projectionrating+"</h4>";
+						
+							}
+							
+						}
+						cinemarating = cinemarating/visitors;
+						document.getElementById("rating").innerHTML=cinemarating;
+						document.getElementById("profit").innerHTML=cinemaearned;
+						document.getElementById("visitors").innerHTML=visitors;
+						document.getElementById("pr").innerHTML=h;
+					}
+				/*	$scope.getProjections = function(){
+						var id = $rootScope.cinema.id;
+						console.log(id);
+						cinemaTheaterService.getProjections(id).then(function(response)
+								{
+							
+								console.log(response.data);
+								$scope.projections = response.data.sort();
+								}, function myError(response) {
+							
+					    });
+					}*/
 				}
 		]);
+

@@ -12,7 +12,7 @@
 		<h4>
 		 	<label> Address: {{cinemaTheater.adress}}</label>
 		 	<br/>
-		 	<label> Description:</label> <textarea rows="4" cols="50"> {{cinemaTheater.description}} </textarea>
+		 	<label> Description: {{cinemaTheater.description}} </label>
 		 	<br/>
 		  	<label>Rating: {{cinemaTheater.rating}} </label>
 		  	<br/>
@@ -26,10 +26,10 @@
 	 	<button type="button" class="btn btn-primary" ng-click=showView(1)>Edit</button>
 	 	<a href="#/projections/{{selected.id}}"> <button class="btn btn-primary">All projections</button></a>
 	 	<a href="#/fastReservation/{{selected.id}}"> <button class="btn btn-primary">Fast reservations</button></a>
-	<!--  	<button type="button" class="btn btn-primary" ng-click=showView(2)>Edit projection</button> -->
+		<button type="button" class="btn btn-primary" ng-click=showView(5)>Statistic</button>
 	</div>
 	<div ng-show="show==1" ng-include src="'editCinemaTheater.html'"></div>
-	<!--  <div ng-show="show==2" ng-include src="'editProjection.html'"></div> -->
+    <div ng-show="show==5" ng-include src="'statistic.html'"></div>
 
 </div>
 </div>
