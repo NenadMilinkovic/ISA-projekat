@@ -43,6 +43,8 @@ import isa.project.service.ReservationService;
 import isa.project.service.TermService;
 import isa.project.service.UserService;
 
+
+
 @RestController
 @RequestMapping(value="/reservation")
 public class ReservationController {
@@ -485,6 +487,31 @@ public class ReservationController {
 		
 		return new ResponseEntity<>("\"Reservation has been successfuly made.\"", HttpStatus.CREATED);
 	}
-
+	
+	@RequestMapping(value = "/changeSeats", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> changeSeats(@RequestParam(value = "vip") String vip,@RequestParam(value = "regular") String regular,
+			@RequestParam(value = "balcony")String balcony,@RequestParam(value = "hall_id") String hall_id) throws ClassNotFoundException, IOException, ParseException{
+		
+		Hall hall = hallService.findOne(Long.parseLong(hall_id));
+	    boolean [][] allSeats = SeatMap.convertToSeatMap(hall.getSeats()).getFreeSeats();
+	    
+		projectionService.findById(hall.getCinemaTheater());
+		Projection p = new Projection();
+		List<Term> terms = termService.findAll(p);
+	    for(Term term : terms){
+	    	
+	        SeatMap currSeatMap = (SeatMap) SeatMap.convertToSeatMap(term.getSeats());
+			currSeatMap.getFreeSeats()[2][2]=false;
+			termService.update(term.getId(),SeatMap.convertToBytes(currSeatMap));	
+	    	
+	    }
+    
+		SeatMap sMap = new SeatMap();
+		sMap.setFreeSeats(allSeats);
+		hall.setSeatMap(sMap);
+		hallService.update(hall.getId());
+		
+		return new ResponseEntity<String>("",HttpStatus.OK);
+	}
 	
 }

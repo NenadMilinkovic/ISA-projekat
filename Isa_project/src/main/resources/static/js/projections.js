@@ -60,7 +60,8 @@ app.factory('ProjectionService', function ProjectionService($http) {
 				"description" : projection.description,
 				"genre" : projection.genre,
 				"director" : projection.director,
-				"duration" : projection.duration
+				"duration" : projection.duration,
+				"poster" : projection.poster
 			}
 		});
 	}
@@ -105,8 +106,8 @@ app.controller(
 				function($rootScope, $scope, $location, $routeParam, $interval,
 						 ProjectionService) {
 					
-					$scope.show=true;
 					
+					$scope.show=true;
 					$scope.showView = function(number){
 						$scope.show = number;
 					}
@@ -183,8 +184,11 @@ app.controller(
 						
 					}
 					
-					$scope.changeProjection = function(projection){
+					$scope.changeProjection = function(){
 						var id = $routeParam.current.params.id;
+						var projection = $scope.projection;
+						projection.poster = photo;
+						photo="";
 						ProjectionService.changeProjection(id,projection).then(function(response){
 							alert("Change projection");
 							location.reload();
@@ -219,7 +223,9 @@ app.controller(
 function uploadImage2() {
 	console.log( $('#poster'));
     let image = $('#poster').prop('files')[0];
-	
+	if(image==undefined){
+		image=$("#changePoster").prop('files')[0];
+	}
     var formData = new FormData();
     formData.append("image", image);
     $.ajax({

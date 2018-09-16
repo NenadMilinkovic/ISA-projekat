@@ -99,6 +99,21 @@ app.factory('CinemaTheaterService', function cinemaTheaterService($http) {
 		});
 	}
 	
+	cinemaTheaterService.getHalls = function(id){
+		return $http({
+			method: "GET",
+			url: '/projection/getHall/'+id
+		});
+	}
+	
+	cinemaTheaterService.changeSeats = function(vip,regular,balcony,hall_id){
+		return $http({
+			method: 'PUT',
+			url : '/reservation/changeSeats',
+			params: { vip : vip, regular : regular, balcony : balcony, hall_id : hall_id}
+		});
+	}
+	
 	
 	
 
@@ -141,6 +156,9 @@ app.controller(
 							
 					    });
 						
+						cinemaTheaterService.getHalls($scope.selected.id).then(function(response){
+							$scope.halls = response.data;
+						});
 						$scope.selectedCinemaAdmin = null;
 						$scope.show = null;
 						$scope.newCinemaAdmin = null;
@@ -279,18 +297,21 @@ app.controller(
 						document.getElementById("visitors").innerHTML=visitors;
 						document.getElementById("pr").innerHTML=h;
 					}
-				/*	$scope.getProjections = function(){
-						var id = $rootScope.cinema.id;
-						console.log(id);
-						cinemaTheaterService.getProjections(id).then(function(response)
-								{
-							
-								console.log(response.data);
-								$scope.projections = response.data.sort();
+					
+					$scope.changeSeats = function(){
+						var vip = document.getElementById("vip").checked;
+						var regular = document.getElementById("regular").checked;
+						var balcony = document.getElementById("balcony").checked;
+						console.log($scope.cinema.hall);
+						var hall_id = $scope.cinema.hall;
+						
+						cinemaTheaterService.changeSeats(vip,regular,balcony,hall_id).then(
+								function(response) {
+									alert("Close segment");
 								}, function myError(response) {
-							
-					    });
-					}*/
+						
+								});
+					}
 				}
 		]);
 

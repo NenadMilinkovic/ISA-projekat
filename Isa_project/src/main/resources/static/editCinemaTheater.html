@@ -19,7 +19,7 @@
 	<div class="form-group">
 		<label class="control-label col-sm-3" for="des">Description:</label>
 		<div class="col-sm-9">
-			<input type="text" class="form-control" id="changeName" name="des"
+			<input type="text" class="form-control" id="changeDescription" name="des"
 				placeholder="Enter description" required
 				ng-Model="$parent.cinema.description" pattern = "^[A-Z][a-z_ A-Z0-9]*" ng-maxlength="50">
 		</div>
@@ -59,6 +59,26 @@
         <span class="error" ng-show="myForm.adress.$error.pattern">
         Example with all permited letters : "Sasa_da nekaNsda87" !</span>
     </div>
+    
+      <div class="form-group" ng-init="getHalls()">
+		<h3>Close hall segment</h3>
+				<label for="reserve-form"><p>Hall:</p></label>
+				<select class="form-control" name="hall" id="halls" ng-model="$parent.cinema.hall"style="padding: 1px 3px;" required>
+					<option value="" selected hidden>-- Select an option --</option>
+					<option ng-repeat="hall in halls" value={{hall.id}}>{{hall.name}}</option>
+					<div ng-messages="registrationForm.name.$error" ng-messages-include="messages.html"></div>
+				</select>
+			</div>
+	<div>
+	Vip
+	<input type="checkbox" id="vip" value="vip" />
+	Regular
+	<input type="checkbox" id="regular" value="regular" />
+	Balcony
+	<input type="checkbox" id="balcony" value="balcony"  />
+	<button class="btn btn-success" ng-click=changeSeats() >change</button>
+	
+	</div>
     
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">

@@ -76,8 +76,8 @@
 		<label class="control-label col-sm-3" for="poster">Poster:</label>
 		<div class="col-sm-9">
 			<input type="file" class="form-control" id="changePoster" name="poster" accept="image/*"
-			 ng-Model="$parent.project.poster" onchange="uploadImage2()">
-			<img id="img" alt="slika" ng-show="$parent.newprojection.poster.src" ng-src="{{$parent.projection.poster.src}}" >
+			 ng-Model="$parent.projection.poster" onchange="uploadImage2()">
+			<img id="img" alt="slika" ng-show="$parent.projection.poster.src" ng-src="{{$parent.projection.poster.src}}" >
 		</div>
 	</div>
     <p>TERMS</p>
@@ -93,7 +93,7 @@
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<button type="submit" class="btn btn-success"
-				ng-Click="$parent.changeProjection(projection)"
+				ng-Click="$parent.changeProjection()"
 				data-toggle="tooltip" data-placement="top" tooltip>Submit</button>
 		</div>
 	</div>
